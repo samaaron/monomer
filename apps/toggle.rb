@@ -3,15 +3,15 @@
 #$:.unshift File.dirname(__FILE__) # For use/testing when no gem is installed
 
 require '../lib/monome'
-require 'corner_toggles'
-require 'rectangles'
-require 'toggle'
 
 class Paint
-  include Monome
   def initialize
-    @monome = Monome.new
-    @monome.listeners << self << Listeners::CornerToggles.new << Listeners::Rectangles.new
+    @monome = Monome::Communicator.new
+    @monome.listeners << self << 
+                         Monome::Listeners::Toggle.new <<
+                         Monome::Listeners::CornerToggles.new << 
+                         Monome::Listeners::Rectangles.new
+                         
   end
   
   def run

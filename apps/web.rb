@@ -46,3 +46,7 @@ def ascii_status
   M.ascii_status("<br>")
 end
 
+get '/toggle_table' do
+  
+end
+

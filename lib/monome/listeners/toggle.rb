@@ -4,7 +4,7 @@ module Monome
       attr_accessor :monome
       
       def button_pressed(x,y)
-         @monome.toggle_led(x,y)
+        @monome.toggle_led(x,y)
       end
       
     end
