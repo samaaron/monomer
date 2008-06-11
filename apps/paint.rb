@@ -6,7 +6,7 @@ require '../lib/monome'
 
 class Paint
   def initialize
-    @monome = Monome::Communicator.new
+    @monome = Monome::Monome.new
     @monome.listeners << self << 
                          Monome::Listeners::Toggle.new <<
                          Monome::Listeners::CornerToggles.new << 
@@ -14,12 +14,12 @@ class Paint
                          
   end
   
-  def run
-    @monome.run
+  def start
+    @monome.start
   end
 end
 
 if $0 == __FILE__
-  Paint.new.run 
+  Paint.new.start 
 end
 

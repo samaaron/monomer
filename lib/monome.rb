@@ -4,6 +4,8 @@ $:.unshift File.dirname(__FILE__) + '/monome'
 
 #require core
 require 'monome/communicator'
+require 'monome/monome'
+require 'monome/state'
 
 #require listeners
 require 'listeners/corner_toggles'
