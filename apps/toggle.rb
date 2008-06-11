@@ -13,11 +13,7 @@ class Toggle
   end
   
   def button_pressed(x,y)
-    toggle(x,y)
-  end
-  
-  def toggle(x,y)
-    @monome.toggle(x,y)
+     @monome.toggle_led(x,y)
   end
   
   def run
@@ -25,11 +21,7 @@ class Toggle
   end
 end
 
-
-
 if $0 == __FILE__
-
   Toggle.new.run 
-
 end
 
