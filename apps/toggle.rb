@@ -3,15 +3,17 @@
 #$:.unshift File.dirname(__FILE__) # For use/testing when no gem is installed
 
 require '../lib/monome'
+require 'corner_toggles'
 
 class Toggle
+  include Monome
   def initialize
     @monome = Monome.new
-    @monome.listeners << self
+    @monome.listeners << self << Listeners::CornerToggles.new
   end
   
-  def call(x,y,status)
-    toggle(x,y) if status
+  def button_pressed(x,y)
+    toggle(x,y)
   end
   
   def toggle(x,y)

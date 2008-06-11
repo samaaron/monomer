@@ -1,12 +1,14 @@
 $:.unshift File.dirname(__FILE__) # For use/testing when no gem is installed
+$:.unshift File.dirname(__FILE__) + '/monome/listeners'
 
 require 'osc/gopt'
 require 'osc/osc'
-
+module Monome
 class Monome
   include OSC
   
   attr_accessor :listeners
+  attr_reader :max_x, :max_y
   
   def initialize(monome=128, in_port=8000, out_port=8080)
     @monome = monome
@@ -24,39 +26,47 @@ class Monome
     result
   end
   
-  def on(x,y)
+  def led_on(x,y)
     @led_toggle_status[[x,y]] = true
     @client.send(Message.new('/test/led', nil, x,y, 1))
   end
   
-  def off(x,y)
+  def led_off(x,y)
     @led_toggle_status[[x,y]] = false
     @client.send(Message.new('/test/led', nil, x,y, 0))
   end
   
   def toggle(x,y)
     @led_toggle_status[[x,y]] = !@led_toggle_status[[x,y]]
-    @led_toggle_status[[x,y]] ? on(x,y) : off(x,y)
+    @led_toggle_status[[x,y]] ? led_on(x,y) : led_off(x,y)
   end
   
   def clear
-    (0..@max_x).each{|x| (0..@max_y).each{|y| off(x,y)}}
+    (0..@max_x).each{|x| (0..@max_y).each{|y| led_off(x,y)}}
   end
   
   def all
-    (0..@max_x).each{|x| (0..@max_y).each{|y| on(x,y)}}
+    (0..@max_x).each{|x| (0..@max_y).each{|y| led_on(x,y)}}
   end
   
   def run
+    register_self_with_listeners
     @server.add_method(nil) do |mesg|
       x,y =  mesg.to_a[0..1]
-      on_off = mesg.to_a[2] == 1 ? true : false
-      @listeners.each {|listener| listener.call(x,y, on_off)}
+      if mesg.to_a[2] == 1 
+        @listeners.each {|listener| listener.button_pressed(x,y) if listener.respond_to? :button_pressed}
+      else
+        @listeners.each {|listener| listener.button_released(x,y) if listener.respond_to? :button_released}
+      end
     end
     @server.run
   end
   
   private
+  
+  def register_self_with_listeners
+    @listeners.each {|listener| listener.monome = self if listener.respond_to? :monome=}
+  end
   
   def find_max_coords_from_monome_type
     case @monome
@@ -65,5 +75,6 @@ class Monome
     end
   end
   
+end
 end
 

@@ -19,7 +19,7 @@ get '/on/:x/:y' do
   if(params['x'].to_i > 15 || params['y'].to_i > 7)
     'x/y coords out of range max is on/15/7'
   else
-    M.on(params['x'].to_i, params['y'].to_i)
+    M.led_onparams['x'].to_i, params['y'].to_i)
     "light turned on!: <br/><code> #{ascii_status} </code>"
   end
 end
@@ -28,7 +28,7 @@ get '/off/:x/:y' do
   if(params['x'].to_i > 15 || params['y'].to_i > 7)
     'x/y coords out of range max is on/15/7'
   else
-    M.off(params['x'].to_i, params['y'].to_i)
+    M.led_off(params['x'].to_i, params['y'].to_i)
     "light turned off!: <br/><code> #{ascii_status} </code>"
   end
 end
