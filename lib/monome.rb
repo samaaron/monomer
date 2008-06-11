@@ -36,7 +36,7 @@ class Monome
     @client.send(Message.new('/test/led', nil, x,y, 0))
   end
   
-  def toggle(x,y)
+  def toggle_led(x,y)
     @led_toggle_status[[x,y]] = !@led_toggle_status[[x,y]]
     @led_toggle_status[[x,y]] ? led_on(x,y) : led_off(x,y)
   end

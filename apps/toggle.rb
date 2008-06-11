@@ -4,16 +4,14 @@
 
 require '../lib/monome'
 require 'corner_toggles'
+require 'rectangles'
+require 'toggle'
 
-class Toggle
+class Paint
   include Monome
   def initialize
     @monome = Monome.new
-    @monome.listeners << self << Listeners::CornerToggles.new
-  end
-  
-  def button_pressed(x,y)
-     @monome.toggle_led(x,y)
+    @monome.listeners << self << Listeners::CornerToggles.new << Listeners::Rectangles.new
   end
   
   def run
@@ -22,6 +20,6 @@ class Toggle
 end
 
 if $0 == __FILE__
-  Toggle.new.run 
+  Paint.new.run 
 end
 
