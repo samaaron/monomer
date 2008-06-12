@@ -8,6 +8,17 @@ module Monome
           @x = x
           @y = y
         end
+        
+        def ==(other)
+          other.x == @x
+          other.y == @y
+        end
+        
+        def hash
+          @x * 10 + @y
+        end
+        
+        alias_method :eql?, :==
       end
       
       attr_accessor :monome
@@ -31,6 +42,8 @@ module Monome
       
       def first_four_taps_define_a_rectangle?
         ordered_coords = order_first_four_taps_spatially
+        
+        ordered_coords.uniq.size == 4 &&
         (ordered_coords[0].x == ordered_coords[1].x) &&
         (ordered_coords[0].y == ordered_coords[2].y) &&
         (ordered_coords[2].x == ordered_coords[3].x) &&
