@@ -2,6 +2,8 @@ This is a Ruby library to interact with the fantastic box of wonder that is the 
 
 It is most definitely work in progress, is evolving rapidly, and is already great fun to play with :-)
 
+This library has been developed tested using a monome 128. Currently it doesn't directly support other monome devices, although this is planned. If you're interested in helping get this working on the 64/256 versions please feel free to contact me :-)
+
 Enjoy!
 
 Sam Aaron
