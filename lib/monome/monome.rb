@@ -19,9 +19,7 @@ module Monome
     end
     
     def ascii_status(join_string="\n")
-      result = ""
-      (0..@max_y).each{|y| result << (0..@max_x).map{|x| @led_toggle_status[[x,y]] ? '* ' : '- '}.join + join_string}
-      result
+      @state.ascii_status(join_string)
     end
     
     def led_on(x,y)

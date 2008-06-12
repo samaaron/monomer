@@ -1,11 +1,11 @@
 module Monome
   class State    
-    attr_reader :max_x, :max_y
+    attr_reader :max_x, :max_y, :led_toggle_status
     
     def initialize(monome=128)
       @monome = monome
       @max_x, @max_y = find_max_coords_from_monome_type
-      @led_toggle_status = Hash.new(false)
+      @led_status = Hash.new(false)
       @messages = []
     end
     
@@ -13,8 +13,11 @@ module Monome
       message = Message.new(@messages.size, message[:message], message[:time], message[:x], message[:y])
       puts message
       @messages << message
-      if message.message == :button_pressed
-        toggle_led_status(message.x, message.y)
+      case message.message
+      when :led_off
+        @led_status[[message.x, message.y]] = false
+      when :led_on
+        @led_status[[message.x, message.y]] = true
       end
     end
     
@@ -25,14 +28,10 @@ module Monome
     end
     
     def led_status(x,y)
-      @led_toggle_status[[x,y]]
+      @led_status[[x,y]]
     end
         
     private
-    
-    def toggle_led_status(x,y)
-      @led_toggle_status[[x,y]] = !@led_toggle_status[[x,y]]
-    end
     
     def find_max_coords_from_monome_type
       case @monome
