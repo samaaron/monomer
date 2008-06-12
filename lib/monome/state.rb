@@ -10,9 +10,11 @@ module Monome
     end
     
     def notify(message)
+      message = Message.new(@messages.size, message[:message], message[:time], message[:x], message[:y])
+      puts message
       @messages << message
-      if message[:message] == :button_pressed
-        toggle_led_status(message[:x], message[:y])
+      if message.message == :button_pressed
+        toggle_led_status(message.x, message.y)
       end
     end
     
