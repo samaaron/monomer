@@ -1,6 +1,6 @@
 module Monome
   class State    
-    attr_reader :max_x, :max_y, :led_toggle_status
+    attr_reader :max_x, :max_y, :led_status
     
     def initialize(monome=128)
       @monome = monome
@@ -23,7 +23,7 @@ module Monome
     
     def ascii_status(join_string="\n")
       result = ""
-      (0..@max_y).each{|y| result << (0..@max_x).map{|x| @led_toggle_status[[x,y]] ? '* ' : '- '}.join + join_string}
+      (0..@max_y).each{|y| result << (0..@max_x).map{|x| @led_status[[x,y]] ? '* ' : '- '}.join + join_string}
       result
     end
     
