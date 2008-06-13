@@ -9,7 +9,7 @@ class Random
   
   def start
     10000000.times do
-      sleep(0.1)
+      sleep(rand(0.5))
       toggle_random_led
     end
   end
@@ -19,7 +19,6 @@ class Random
     y = rand(@monome.max_y + 1)
     @monome.toggle_led(x,y)
   end
-  
 end
 
 Random.new.start
