@@ -12,7 +12,7 @@ module Monome
     def notify(message)
       message = Message.new(@messages.size, message[:message], message[:time], message[:x], message[:y])
       puts message
-      @messages << message
+      #@messages << message
       case message.message
       when :led_off
         @led_status[[message.x, message.y]] = false
