@@ -7,6 +7,8 @@ module Monome
       @state = State.new
       @communicator = Communicator.new(self, @state, in_port, out_port)
       @listeners = []
+      @button_pressed_listeners = []
+      @button_released_listeners = []
       clear
     end
     
@@ -43,15 +45,16 @@ module Monome
     end
     
     def button_pressed(x,y)
-      @listeners.each {|listener| listener.button_pressed(x,y) if listener.respond_to? :button_pressed}
+      @button_pressed_listeners.each {|listener| listener.button_pressed(x,y)}
     end
     
     def button_released(x,y)
-      @listeners.each {|listener| listener.button_released(x,y) if listener.respond_to? :button_released}
+      @button_released_listeners.each {|listener| listener.button_released(x,y)}
     end
     
     def start
       register_self_with_listeners
+      determine_listener_hooks
       @communicator.start
     end
     
@@ -59,6 +62,13 @@ module Monome
     
     def register_self_with_listeners
       @listeners.each {|listener| listener.monome = self if listener.respond_to? :monome=}
+    end
+    
+    def determine_listener_hooks
+      @listeners.each do |listener|
+        @button_released_listeners  << listener if listener.respond_to? :button_released
+        @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
+      end
     end
     
     def find_max_coords_from_monome_type
