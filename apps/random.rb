@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
-require '../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monome'
 
 class Random
   def initialize
