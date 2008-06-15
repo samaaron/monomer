@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -wKU
 
+#this app requires sinatra: sudo gem install sinatra
 #run this app, navigate to http://localhost:4567/all and see what happens!
 
 require "rubygems" 
@@ -46,9 +47,5 @@ end
 
 def ascii_status
   M.ascii_status("<br>")
-end
-
-get '/toggle_table' do
-  
 end
 
