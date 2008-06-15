@@ -2,8 +2,14 @@ This is a Ruby library to interact with the fantastic box of wonder that is the 
 
 It is most definitely work in progress, is evolving rapidly, and is already great fun to play with :-)
 
-This library has been developed tested using a monome 128. Currently it doesn't directly support other monome devices, although this is planned. If you're interested in helping get this working on the 64/256 versions please feel free to contact me :-)
+This library has been developed and tested using a monome 128. Currently it doesn't explicitly support other monome devices, although this is planned. If you're interested in helping get this working on the 64/256 versions please feel free to contact me :-)
+
+In order to use this library, you must have monomeserial running with Address Pattern Prefix /test and cable orientation set to top.
 
 Enjoy!
 
 Sam Aaron
+
+P.S.
+
+If you're planning on using a lot of threads, then I recommend using JRuby as the main interpreter. It's much faster (with cool stuff like JIT support) and has a decent thread implementation. If you're using JRuby, make sure you're using 1.1.2+ http://jruby.codehaus.org/
