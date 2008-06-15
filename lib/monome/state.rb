@@ -1,24 +1,25 @@
 module Monome
   class State    
-    attr_reader :max_x, :max_y, :led_status
+    attr_reader :max_x, :max_y
     
     def initialize(monome=128)
       @monome = monome
       @max_x, @max_y = find_max_coords_from_monome_type
       @led_status = Hash.new(false)
-      @messages = []
+      @num_messages = 0
     end
     
     def notify(message)
-      message = Message.new(@messages.size, message[:message], message[:time], message[:x], message[:y])
-      puts message
-      #@messages << message
+      message = Message.new(@num_messages, message[:message], message[:time], message[:x], message[:y])
+      #uncomment following line to get an output of what's happening...
+      #puts message
       case message.message
       when :led_off
         @led_status[[message.x, message.y]] = false
       when :led_on
         @led_status[[message.x, message.y]] = true
       end
+      @num_messages += 1
     end
     
     def ascii_status(join_string="\n")

@@ -10,8 +10,7 @@ module Monome
         end
         
         def ==(other)
-          other.x == @x
-          other.y == @y
+          (other.x == @x && other.y == @y)
         end
         
         def hash

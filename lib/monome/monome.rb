@@ -1,5 +1,18 @@
 module Monome
-  class Monome    
+  class Monome
+    
+    class << self
+      def with_listeners(*listeners)
+        @monome = Monome.new
+        @monome.listeners = listeners.map {|listener| listener.new}
+        return @monome
+      end
+      
+      def monome
+        @monome
+      end
+    end
+    
     attr_accessor :listeners
     
     def initialize(monome=128, in_port=8000, out_port=8080)
