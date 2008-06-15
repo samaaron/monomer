@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby -wKU
 
+#run this app, navigate to http://localhost:4567/all and see what happens!
+
 require "rubygems" 
 require "sinatra"
 require File.dirname(__FILE__) + '/../lib/monome'

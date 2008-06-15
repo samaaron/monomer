@@ -1,5 +1,7 @@
 #!/usr/bin/env jruby -wKU
 
+#this app demonstrates the use of threads to allow interaction between the app and the listeners.
+
 require File.dirname(__FILE__) + '/../lib/monome'
 
 class ToggableRandom

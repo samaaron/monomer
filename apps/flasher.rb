@@ -1,5 +1,7 @@
 #!/usr/bin/env jruby -wKU
 
+#flashes the entire monome repeatedly ad nauseam...
+
 require File.dirname(__FILE__) + '/../lib/monome'
 
 class Random

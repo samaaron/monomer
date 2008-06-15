@@ -1,5 +1,7 @@
 #!/usr/bin/env jruby -wKU
 
+#whizz one led through all the keys really, really fast
+
 require File.dirname(__FILE__) + '/../lib/monome'
 
 class Random

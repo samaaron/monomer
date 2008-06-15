@@ -1,5 +1,7 @@
 #!/usr/bin/env jruby -wKU
 
+#Choose a random key and toggle it. Repeat lots of times.
+
 require File.dirname(__FILE__) + '/../lib/monome'
 
 class Random
