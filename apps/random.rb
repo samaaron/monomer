@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env jruby -wKU
 
 require File.dirname(__FILE__) + '/../lib/monome'
 
