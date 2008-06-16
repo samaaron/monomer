@@ -17,6 +17,7 @@ module Monome
       @server = OSC::SimpleServer.new(in_port)
       set_sys_prefix
       set_sys_cable('up')
+      fade_in_and_out
     end
     
     def led_on(x,y)
@@ -53,6 +54,19 @@ module Monome
     end
     
     private
+    
+    def fade_in_and_out
+      set_sys_intensity(0)
+      all
+      1.upto(99)  {|i| set_sys_intensity(i/100.0) ; sleep(0.01)}
+      99.downto(1){|i| set_sys_intensity(i/100.0) ; sleep(0.01)}
+      clear
+      set_sys_intensity(0.99)
+    end
+    
+    def set_sys_intensity(intensity)
+      @client.send(OSC::Message.new("/sys/intensity", nil, intensity))
+    end
     
     def set_sys_prefix
       @client.send(OSC::Message.new("/sys/prefix", nil, @prefix))
