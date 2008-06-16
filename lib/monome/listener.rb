@@ -8,35 +8,63 @@ module Monome
       meta_def :loop_on_key_sustain do
         block
       end
+      
+      def key_sustain_on(x,y)
+        @key_threads[[x,y]] = Thread.new do
+          loop do
+            self.class.loop_on_key_sustain.call
+          end
+        end
+      end
+      
+      def key_sustain_off(x,y)
+        if thread = @key_threads[[x,y]]
+          thread.kill
+          @key_threads[[x,y]] = nil
+        end
+      end
     end
     
     def self.on_start(&block)
       meta_def :on_start do
         block
       end
+      
+      def start
+        thread = Thread.new do
+          self.class.on_start.call
+        end
+      end
     end
+    
+    def self.on_key_down(&block)
+      meta_def :on_key_down do
+        block
+      end
+      
+      def button_pressed(x,y)
+        Thread.new do
+          self.class.on_key_down.call(x,y)
+        end
+      end
+    end
+    
+    def self.on_key_up(&block)
+      meta_def :on_key_up do
+        block
+      end
+      
+      def button_released(x,y)
+        Thread.new do
+          self.class.on_key_up.call(x,y)
+        end
+      end
+    end
+    
     
     def initialize
       @key_threads = {}
     end
     
-    def button_pressed(x,y)
-      @key_threads[[x,y]] = Thread.new do
-        loop do
-          self.class.loop_on_key_sustain.call
-        end
-      end
-    end
-    
-    def button_released(x,y)
-      if thread = @key_threads[[x,y]]
-        thread.kill
-        @key_threads[[x,y]] = nil
-      end
-    end
-    
-    def start
-      self.class.on_start.call
-    end
   end
 end

@@ -22,6 +22,8 @@ module Monome
       @listeners = []
       @button_pressed_listeners = []
       @button_released_listeners = []
+      @on_start_listeners = []
+      @key_sustain_listeners = []
       clear
     end
     
@@ -68,17 +70,23 @@ module Monome
     def button_pressed(x,y)
       x,y = normalize(x,y)
       @button_pressed_listeners.each {|listener| listener.button_pressed(x,y)}
+      @key_sustain_listeners.each    {|listener| listener.key_sustain_on(x,y)}
+      
     end
     
     def button_released(x,y)
       x,y = normalize(x,y)
       @button_released_listeners.each {|listener| listener.button_released(x,y)}
+      @key_sustain_listeners.each     {|listener| listener.key_sustain_off(x,y)}
     end
     
     def start
+      puts 'starting'
       register_self_with_listeners
       determine_listener_hooks
-      @communicator.start
+      @communicator.start do
+        @on_start_listeners.each {|listener| listener.start}
+      end
     end
     
     def status
@@ -96,7 +104,9 @@ module Monome
         @button_released_listeners  << listener if listener.respond_to? :button_released
         @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
         @on_start_listeners         << listener if listener.respond_to? :start
+        @key_sustain_listeners      << listener if listener.respond_to? :key_sustain_on
       end
+      puts "@on_start_listeners: #{@on_start_listeners}"
     end
     
     # make sure our coordinates are always valid.

@@ -41,12 +41,12 @@ module Monome
     end
     
     # hook up methods to recieved osc messages
-    def start
+    def start(&block)
       @server.add_method(/^#{@prefix}\/press/i)  { |mesg| do_press(mesg)  } 
       @server.add_method(/^#{@prefix}\/adc/i)    { |mesg| do_adc(mesg)    }
       @server.add_method(/^#{@prefix}\/prefix/i) { |mesg| do_prefix(mesg) }
       @server.add_method(nil)                    { |mesg| do_dump(mesg)   }
-      @server.run
+      @server.run(&block)
     end
     
     def status

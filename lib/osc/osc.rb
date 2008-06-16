@@ -343,10 +343,18 @@ module OSC
 
     private :sendmesg, :dispatcher, :detector
 
-    def run
+    def run(&block)
       Thread.fork do
         begin
           dispatcher
+        rescue
+          Thread.main.raise $!
+        end
+      end
+      
+      Thread.fork do
+        begin
+          block.call if block
         rescue
           Thread.main.raise $!
         end
