@@ -57,9 +57,9 @@ module Monome
     
     def fade_in_and_out
       set_sys_intensity(0)
-      all
-      1.upto(99)  {|i| set_sys_intensity(i/100.0) ; sleep(0.01)}
-      99.downto(1){|i| set_sys_intensity(i/100.0) ; sleep(0.001)}
+      draw_inverted_naeu
+      1.upto(99)  {|i| set_sys_intensity(i/100.0) ; sleep(0.02)}
+      99.downto(1){|i| set_sys_intensity(i/100.0) ; sleep(0.002)}
       clear
       set_sys_intensity(0.99)
     end
@@ -78,6 +78,10 @@ module Monome
     
     def send_led(x,y,led_status)
       @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
+    end
+    
+    def send_row(row_num, decimal)
+      @client.send(OSC::Message.new("#{@prefix}/led_row", nil, row_num, decimal))
     end
     
     def send_frame(offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8)
@@ -111,6 +115,50 @@ module Monome
     def do_dump mesg
       params = mesg.to_a.join(',')
       puts "#{mesg.address}: #{params}"
+    end
+    
+    def draw_naeu
+      lr_0 = 0b11111111
+      lr_1 = 0b11100000
+      lr_2 = 0b11101111
+      lr_3 = 0b11111000
+      lr_4 = 0b11111000
+      lr_5 = 0b11101111
+      lr_6 = 0b11100000
+      lr_7 = 0b11111111
+      rr_0 = 0b11111111
+      rr_1 = 0b00000111
+      rr_2 = 0b11110111
+      rr_3 = 0b00011111
+      rr_4 = 0b00011111
+      rr_5 = 0b11110111
+      rr_6 = 0b00000111
+      rr_7 = 0b11111111
+      
+      send_frame(8,0, lr_0, lr_1, lr_2, lr_3, lr_4, lr_5, lr_6, lr_7)
+      send_frame(0,0, rr_0, rr_1, rr_2, rr_3, rr_4, rr_5, rr_6, rr_7)
+    end
+    
+    def draw_inverted_naeu
+      lr_0_i = 0b00000000
+      lr_1_i = 0b00011111
+      lr_2_i = 0b00010000
+      lr_3_i = 0b00000111
+      lr_4_i = 0b00000111
+      lr_5_i = 0b00010000
+      lr_6_i = 0b00011111
+      lr_7_i = 0b00000000
+      rr_0_i = 0b00000000
+      rr_1_i = 0b11111000
+      rr_2_i = 0b00001000
+      rr_3_i = 0b11100000
+      rr_4_i = 0b11100000
+      rr_5_i = 0b00001000
+      rr_6_i = 0b11111000
+      rr_7_i = 0b00000000
+      
+      send_frame(8,0, lr_0_i, lr_1_i, lr_2_i, lr_3_i, lr_4_i, lr_5_i, lr_6_i, lr_7_i)
+      send_frame(0,0, rr_0_i, rr_1_i, rr_2_i, rr_3_i, rr_4_i, rr_5_i, rr_6_i, rr_7_i)
     end
   end
 end
