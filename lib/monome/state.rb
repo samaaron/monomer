@@ -38,10 +38,10 @@ module Monome
       case @monome_type
       when 128
         return [15,7]
+      when 64 # == "40h"
+        return [7,7]
       when 256
         return [15,15]
-      when 64
-        return [7,7]
       end
     end
   end

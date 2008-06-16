@@ -15,7 +15,7 @@ class ToggableRandom
     monome_thread = Thread.new { @monome.start }
     random_thread = Thread.new do
       10000000.times do
-        sleep(rand(0.5))
+        rand(10) < 5 ? sleep(rand(0.5) / 2.0) : sleep(rand(0.5) / 4.0)
         toggle_random_led
       end
     end

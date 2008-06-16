@@ -15,9 +15,9 @@ module Monome
     
     attr_accessor :listeners
     
-    def initialize(monome_type=128, in_port=8000, out_port=8080)
+    def initialize(monome_type=128, prefix='/test', in_port=8000, out_port=8080)
       @state = State.new(monome_type)
-      @communicator = Communicator.new(self, @state, in_port, out_port)
+      @communicator = Communicator.new(self, @state, prefix, in_port, out_port)
       @listeners = []
       @button_pressed_listeners = []
       @button_released_listeners = []
@@ -42,14 +42,17 @@ module Monome
     end
     
     def led_on(x,y)
+      x,y = normalize(x,y)
       @communicator.led_on(x,y)
     end
     
     def led_off(x,y)
+      x,y = normalize(x,y)
       @communicator.led_off(x,y)
     end
     
     def toggle_led(x,y)
+      x,y = normalize(x,y)
       @state.led_status(x,y) ? led_off(x,y) : led_on(x,y)
     end
     
@@ -62,10 +65,12 @@ module Monome
     end
     
     def button_pressed(x,y)
+      x,y = normalize(x,y)
       @button_pressed_listeners.each {|listener| listener.button_pressed(x,y)}
     end
     
     def button_released(x,y)
+      x,y = normalize(x,y)
       @button_released_listeners.each {|listener| listener.button_released(x,y)}
     end
     
@@ -73,6 +78,10 @@ module Monome
       register_self_with_listeners
       determine_listener_hooks
       @communicator.start
+    end
+    
+    def status
+      @communicator.status
     end
     
     private
@@ -88,6 +97,16 @@ module Monome
       end
     end
     
+<<<<<<< HEAD:lib/monome/monome.rb
+=======
+    # make shure our coordinates are always valid.
+    # lets ensure this in the monome class, as this is the interface used by the applications.
+    def normalize(x,y)
+      x = x % (max_x + 1)
+      y = y % (max_y + 1)
+      return x,y
+    end
+>>>>>>> 95a822d822bce06d6ab671b666f66cb36e78050d:lib/monome/monome.rb
   end
 end
 
