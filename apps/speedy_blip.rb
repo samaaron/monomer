@@ -2,7 +2,7 @@
 
 #whizz one led through all the keys really, really fast
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class Random
   def initialize

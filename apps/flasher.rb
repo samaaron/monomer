@@ -2,7 +2,7 @@
 
 #flashes the entire monome repeatedly ad nauseam...
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class Random
   def initialize

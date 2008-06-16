@@ -3,7 +3,7 @@
 #this app demonstrates the ability to respond to sustained key presses.
 #Press and hold a bunch of keys: madness!
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class MagicFingers
   def initialize

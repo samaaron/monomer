@@ -2,7 +2,7 @@
 
 #introduction of a nicer api, natively supporting threads (without you needing to know about it)
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class Blinker < Monome::Listener
   

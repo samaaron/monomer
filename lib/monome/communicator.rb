@@ -8,7 +8,7 @@ module Monome
     attr_accessor :listeners
     attr_reader :max_x, :max_y, :led_status
     
-    def initialize(monome, state, monome_type, prefix='ruby_monome', in_port=8000, out_port=8080)
+    def initialize(monome, state, monome_type, prefix='monomer', in_port=8000, out_port=8080)
       @monome = monome
       @monome_type = monome_type
       @state = state

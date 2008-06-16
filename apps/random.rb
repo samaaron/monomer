@@ -2,7 +2,7 @@
 
 #Choose a random key and toggle it. Repeat lots of times.
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class Random
   def initialize

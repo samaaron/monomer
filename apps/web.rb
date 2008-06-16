@@ -5,7 +5,7 @@
 
 require "rubygems" 
 require "sinatra"
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 configure do
             

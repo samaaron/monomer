@@ -2,7 +2,7 @@
 
 #this app demonstrates the use of threads to allow interaction between the app and the listeners.
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class ToggableRandom
   def initialize

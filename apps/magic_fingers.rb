@@ -1,6 +1,6 @@
 #!/usr/bin/env jruby -wKU
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class MagicFingers
   def initialize

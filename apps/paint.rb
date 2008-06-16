@@ -13,7 +13,7 @@
 # a listener that listens for four rectangle corner presses (in any order) and the final corner being tapped twice. A
 # filled rectangle is then displayed
 
-require File.dirname(__FILE__) + '/../lib/monome'
+require File.dirname(__FILE__) + '/../lib/monomer'
 
 class Paint
   def initialize
