@@ -29,12 +29,12 @@ module Monome
     
     def clear
       @state.notify(:message => :clear, :time => Time.now)
-      send_frame_all(:off)
+      send_clear(0)
     end
     
     def all
       @state.notify(:message => :all, :time => Time.now)
-      send_frame_all(:on)
+      send_clear(1)
     end
     
     # hook up methods to recieved osc messages
@@ -58,21 +58,9 @@ module Monome
       def send_frame(offset_x, offset_y, col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8)
         @client.send(OSC::Message.new("#{@prefix}/frame", nil, offset_x, offset_y, col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8))
       end
-    
-      def send_frame_all(led_status)
-        code = led_status == :on ? 255 : 0
-        case @monome_type
-        when '128'
-          send_frame(0, 0, code, code, code, code, code, code, code, code)
-          send_frame(8, 0, code, code, code, code, code, code, code, code)
-        when '64', '40h'
-          send_frame(0, 0, code, code, code, code, code, code, code, code)
-        when '256'
-          send_frame(0, 0, code, code, code, code, code, code, code, code) 
-          send_frame(8, 0, code, code, code, code, code, code, code, code) 
-          send_frame(8, 8, code, code, code, code, code, code, code, code) 
-          send_frame(0, 8, code, code, code, code, code, code, code, code)
-        end
+      
+      def send_clear(led_status)
+        @client.send(OSC::Message.new("#{@prefix}/clear", nil, led_status))
       end
     
       # do_ hooks to reacto on messages from monomeserial
