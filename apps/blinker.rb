@@ -6,10 +6,10 @@ require File.dirname(__FILE__) + '/../lib/monome'
 
 class Blinker < Monome::Listener
   
-  loop_on_key_sustain do |x,y|
-    monome.led_on(1,2)
+  loop_on_key_sustain do
+    monome.all
     sleep(0.1)
-    monome.led_off(1,2)
+    monome.clear
     sleep(0.1)
   end
 
