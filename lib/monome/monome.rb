@@ -97,16 +97,13 @@ module Monome
       end
     end
     
-<<<<<<< HEAD:lib/monome/monome.rb
-=======
-    # make shure our coordinates are always valid.
+    # make sure our coordinates are always valid.
     # lets ensure this in the monome class, as this is the interface used by the applications.
     def normalize(x,y)
       x = x % (max_x + 1)
       y = y % (max_y + 1)
       return x,y
     end
->>>>>>> 95a822d822bce06d6ab671b666f66cb36e78050d:lib/monome/monome.rb
   end
 end
 
