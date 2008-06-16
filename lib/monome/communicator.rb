@@ -15,6 +15,8 @@ module Monome
       @prefix = "/#{prefix}"
       @client = OSC::SimpleClient.new('localhost', out_port)
       @server = OSC::SimpleServer.new(in_port)
+      set_sys_prefix
+      set_sys_cable('up')
     end
     
     def led_on(x,y)
@@ -51,42 +53,51 @@ module Monome
     end
     
     private
-      def send_led(x,y,led_status)
-        @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
-      end
-      
-      def send_frame(offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8)
-        @client.send(OSC::Message.new("#{@prefix}/frame", nil, offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8))
-      end
-      
-      def send_clear(led_status)
-        @client.send(OSC::Message.new("#{@prefix}/clear", nil, led_status))
-      end
     
-      # do_ hooks to reacto on messages from monomeserial
-      def do_press mesg
-        x,y =  mesg.to_a[0..1]
-        if mesg.to_a[2] == 1 
-          @monome.button_pressed(x,y)
-          @state.notify(:message => :button_pressed, :time => Time.now, :x => x, :y => y)
-        else
-          @monome.button_released(x,y)
-          @state.notify(:message => :button_released, :time => Time.now, :x => x, :y => y)
-        end
+    def set_sys_prefix
+      @client.send(OSC::Message.new("/sys/prefix", nil, @prefix))
+    end
+    
+    def set_sys_cable(orientation)
+      @client.send(OSC::Message.new("/sys/cable", nil, orientation))
+    end
+    
+    def send_led(x,y,led_status)
+      @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
+    end
+    
+    def send_frame(offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8)
+      @client.send(OSC::Message.new("#{@prefix}/frame", nil, offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8))
+    end
+    
+    def send_clear(led_status)
+      @client.send(OSC::Message.new("#{@prefix}/clear", nil, led_status))
+    end
+    
+    # do_ hooks to reacto on messages from monomeserial
+    def do_press mesg
+      x,y =  mesg.to_a[0..1]
+      if mesg.to_a[2] == 1 
+        @monome.button_pressed(x,y)
+        @state.notify(:message => :button_pressed, :time => Time.now, :x => x, :y => y)
+      else
+        @monome.button_released(x,y)
+        @state.notify(:message => :button_released, :time => Time.now, :x => x, :y => y)
       end
-      
-      def do_adc mesg
-        #puts "#{mesg.to_a.to_s}"
-      end
-      
-      def do_prefix mesg
-        puts "#{mesg.to_a.to_s}"
-      end
-      
-      def do_dump mesg
-        params = mesg.to_a.join(',')
-        puts "#{mesg.address}: #{params}"
-      end
+    end
+    
+    def do_adc mesg
+      #puts "#{mesg.to_a.to_s}"
+    end
+    
+    def do_prefix mesg
+      puts "#{mesg.to_a.to_s}"
+    end
+    
+    def do_dump mesg
+      params = mesg.to_a.join(',')
+      puts "#{mesg.address}: #{params}"
+    end
   end
 end
 

@@ -2,9 +2,9 @@ This is a Ruby library to interact with the fantastic box of wonder that is the 
 
 It is most definitely work in progress, is evolving rapidly, and is already great fun to play with :-)
 
-This library has been developed and tested using a monome 128. Currently it doesn't explicitly support other monome devices, although this is planned. If you're interested in helping get this working on the 64/256 versions please feel free to contact me :-)
+This library has been developed and tested using a monome 128. If you have any issues with the 40h, 64 and 256 monomes, please contact me and I'll help as soon as I can.
 
-In order to use this library, you must have monomeserial running with Address Pattern Prefix /ruby_monome and cable orientation set to top.
+In order to use this library, you must have monomeserial running. The address pattern prefix will be automatically set to /ruby_monome, and the cable orientation will be automatically set to up.
 
 Enjoy!
 
