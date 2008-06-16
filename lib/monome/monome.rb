@@ -3,7 +3,7 @@ module Monome
     
     class << self      
       def[](monome_type)
-        raise "Unknown monome type" unless [64,128,256].include? monome_type
+        monome_type = monome_type.to_s
         @monome = Monome.new(monome_type)
         return @monome
       end
@@ -15,7 +15,8 @@ module Monome
     
     attr_accessor :listeners
     
-    def initialize(monome_type=128, prefix='/test', in_port=8000, out_port=8080)
+    def initialize(monome_type='128', prefix='ruby_monome', in_port=8000, out_port=8080)
+      raise "Unknown monome type" unless ['40h', '64', '128', '256'].include? monome_type
       @state = State.new(monome_type)
       @communicator = Communicator.new(self, @state, prefix, in_port, out_port)
       @listeners = []

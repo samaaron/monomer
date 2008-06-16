@@ -8,10 +8,10 @@ module Monome
     attr_accessor :listeners
     attr_reader :max_x, :max_y, :led_status
     
-    def initialize(monome, state, prefix="/test", in_port=8000, out_port=8080)
+    def initialize(monome, state, prefix='ruby_monome', in_port=8000, out_port=8080)
       @monome = monome
       @state = state
-      @prefix = prefix
+      @prefix = "/#{prefix}"
       @client = OSC::SimpleClient.new('localhost', out_port)
       @server = OSC::SimpleServer.new(in_port)
     end
@@ -28,10 +28,10 @@ module Monome
     
     # hook up methods to recieved osc messages
     def start
-      @server.add_method(/^#{@prefix}\/press/i) do |mesg| do_press mesg end # how to do this correctly (the ruby way)?
-      @server.add_method(/^#{@prefix}\/adc/i) do |mesg| do_adc mesg end
-      @server.add_method(/^#{@prefix}\/prefix/i) do |mesg| do_prefix mesg end
-      @server.add_method(nil) do |mesg| do_dump mesg end
+      @server.add_method(/^#{@prefix}\/press/i)  { |mesg| do_press(mesg)  } 
+      @server.add_method(/^#{@prefix}\/adc/i)    { |mesg| do_adc(mesg)    }
+      @server.add_method(/^#{@prefix}\/prefix/i) { |mesg| do_prefix(mesg) }
+      @server.add_method(nil)                    { |mesg| do_dump(mesg)   }
       @server.run
     end
     
