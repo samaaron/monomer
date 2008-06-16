@@ -15,4 +15,4 @@ class Blinker < Monome::Listener
 
 end
 
-Monome::Monome.with_listeners(Blinker).start
+Monome::Monome[128].with_listeners(Blinker).start

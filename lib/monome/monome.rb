@@ -1,10 +1,10 @@
 module Monome
   class Monome
     
-    class << self
-      def with_listeners(*listeners)
-        @monome = Monome.new
-        @monome.listeners = listeners.map {|listener| listener.new}
+    class << self      
+      def[](monome_type)
+        raise "Unknown monome type" unless [64,128,256].include? monome_type
+        @monome = Monome.new(monome_type)
         return @monome
       end
       
@@ -23,6 +23,11 @@ module Monome
       @button_pressed_listeners = []
       @button_released_listeners = []
       clear
+    end
+    
+    def with_listeners(*listeners)
+      self.listeners = listeners.map {|listener| listener.new}
+      self
     end
     
     def max_y
@@ -88,6 +93,10 @@ module Monome
       case @monome
       when 128
         return [15,7]
+      when 256
+        return [15,15]
+      when 64
+        return [7,7]
       end
     end
   end
