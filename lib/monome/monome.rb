@@ -18,7 +18,7 @@ module Monome
     def initialize(monome_type='128', prefix='ruby_monome', in_port=8000, out_port=8080)
       raise "Unknown monome type" unless ['40h', '64', '128', '256'].include? monome_type
       @state = State.new(monome_type)
-      @communicator = Communicator.new(self, @state, prefix, in_port, out_port)
+      @communicator = Communicator.new(self, @state, monome_type, prefix, in_port, out_port)
       @listeners = []
       @button_pressed_listeners = []
       @button_released_listeners = []
@@ -58,11 +58,11 @@ module Monome
     end
     
     def clear
-      (0..max_x).each{|x| (0..max_y).each{|y| led_off(x,y)}}
+      @communicator.clear
     end
     
     def all
-      (0..max_x).each{|x| (0..max_y).each{|y| led_on(x,y)}}
+      @communicator.all
     end
     
     def button_pressed(x,y)

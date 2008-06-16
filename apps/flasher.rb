@@ -13,6 +13,7 @@ class Random
     100.times do
       sleep 0.1
       @monome.all
+      sleep 0.1
       @monome.clear
     end
   end

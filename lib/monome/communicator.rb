@@ -8,8 +8,9 @@ module Monome
     attr_accessor :listeners
     attr_reader :max_x, :max_y, :led_status
     
-    def initialize(monome, state, prefix='ruby_monome', in_port=8000, out_port=8080)
+    def initialize(monome, state, monome_type, prefix='ruby_monome', in_port=8000, out_port=8080)
       @monome = monome
+      @monome_type = monome_type
       @state = state
       @prefix = "/#{prefix}"
       @client = OSC::SimpleClient.new('localhost', out_port)
@@ -17,13 +18,23 @@ module Monome
     end
     
     def led_on(x,y)
-      @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, 1))
+      send_led(x,y,1)
       @state.notify(:message => :led_on, :time => Time.now, :x => x, :y => y)
     end
     
     def led_off(x,y)
-      @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, 0))
+      send_led(x,y,0)
       @state.notify(:message => :led_off, :time => Time.now, :x => x, :y => y)
+    end
+    
+    def clear
+      @state.notify(:message => :clear, :time => Time.now)
+      send_frame_all(:off)
+    end
+    
+    def all
+      @state.notify(:message => :all, :time => Time.now)
+      send_frame_all(:on)
     end
     
     # hook up methods to recieved osc messages
@@ -40,6 +51,30 @@ module Monome
     end
     
     private
+      def send_led(x,y,led_status)
+        @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
+      end
+      
+      def send_frame(offset_x, offset_y, col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8)
+        @client.send(OSC::Message.new("#{@prefix}/frame", nil, offset_x, offset_y, col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8))
+      end
+    
+      def send_frame_all(led_status)
+        code = led_status == :on ? 255 : 0
+        case @monome_type
+        when '128'
+          send_frame(0, 0, code, code, code, code, code, code, code, code)
+          send_frame(8, 0, code, code, code, code, code, code, code, code)
+        when '64', '40h'
+          send_frame(0, 0, code, code, code, code, code, code, code, code)
+        when '256'
+          send_frame(0, 0, code, code, code, code, code, code, code, code) 
+          send_frame(8, 0, code, code, code, code, code, code, code, code) 
+          send_frame(8, 8, code, code, code, code, code, code, code, code) 
+          send_frame(0, 8, code, code, code, code, code, code, code, code)
+        end
+      end
+    
       # do_ hooks to reacto on messages from monomeserial
       def do_press mesg
         x,y =  mesg.to_a[0..1]
