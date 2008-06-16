@@ -280,22 +280,22 @@ module OSC
       @queue = Queue.new
     end
 
-    def add_method(pat, obj=nil, &proc)
-      case pat
-      when NIL; regexp = pat
-      when Regexp; regexp = pat
+    def add_method(pattern, obj=nil, &proc)
+      case pattern
+      when NIL; regexp = pattern
+      when Regexp; regexp = pattern
       when String
-        pat = pat.dup
-        pat.gsub!(/[.^(|)]/, '\\1')
-        pat.gsub!(/\?/, '[^/]')
-        pat.gsub!(/\*/, '[^/]*')
-        pat.gsub!(/\[!/, '[^')
-        pat.gsub!(/\{/, '(')
-        pat.gsub!(/,/, '|')
-        pat.gsub!(/\}/, ')')
-        pat.gsub!(/\A/, '\A')
-        pat.gsub!(/\z/, '\z')
-        regexp = Regexp.new(pat)
+        pattern = pattern.dup
+        pattern.gsub!(/[.^(|)]/, '\\1')
+        pattern.gsub!(/\?/, '[^/]')
+        pattern.gsub!(/\*/, '[^/]*')
+        pattern.gsub!(/\[!/, '[^')
+        pattern.gsub!(/\{/, '(')
+        pattern.gsub!(/,/, '|')
+        pattern.gsub!(/\}/, ')')
+        pattern.gsub!(/\A/, '\A')
+        pattern.gsub!(/\z/, '\z')
+        regexp = Regexp.new(pattern)
       else
         raise ArgumentError, 'invalid pattern'
       end
