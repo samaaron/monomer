@@ -15,9 +15,8 @@ module Monome
     
     attr_accessor :listeners
     
-    def initialize(monome=128, in_port=8000, out_port=8080)
-      @monome = monome
-      @state = State.new
+    def initialize(monome_type=128, in_port=8000, out_port=8080)
+      @state = State.new(monome_type)
       @communicator = Communicator.new(self, @state, in_port, out_port)
       @listeners = []
       @button_pressed_listeners = []
@@ -89,16 +88,6 @@ module Monome
       end
     end
     
-    def find_max_coords_from_monome_type
-      case @monome
-      when 128
-        return [15,7]
-      when 256
-        return [15,15]
-      when 64
-        return [7,7]
-      end
-    end
   end
 end
 

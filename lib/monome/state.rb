@@ -2,8 +2,8 @@ module Monome
   class State    
     attr_reader :max_x, :max_y
     
-    def initialize(monome=128)
-      @monome = monome
+    def initialize(monome_type=128)
+      @monome_type = monome_type
       @max_x, @max_y = find_max_coords_from_monome_type
       @led_status = Hash.new(false)
       @num_messages = 0
@@ -35,9 +35,13 @@ module Monome
     private
     
     def find_max_coords_from_monome_type
-      case @monome
+      case @monome_type
       when 128
         return [15,7]
+      when 256
+        return [15,15]
+      when 64
+        return [7,7]
       end
     end
   end
