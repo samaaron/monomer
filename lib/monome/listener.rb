@@ -12,7 +12,7 @@ module Monome
       def key_sustain_on(x,y)
         @key_threads[[x,y]] = Thread.new do
           loop do
-            self.class.loop_on_key_sustain.call
+            self.class.loop_on_key_sustain.call(x,y)
           end
         end
       end

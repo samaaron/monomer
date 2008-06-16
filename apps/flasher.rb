@@ -17,4 +17,4 @@ class Flasher < Monome::Listener
   
 end
 
-Monome::Monome[128].with_listeners(Flasher).start
+Monome::Monome[128].with_listeners(Flasher).start  if $0 == __FILE__

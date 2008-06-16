@@ -5,47 +5,33 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class MagicFingers
-  def initialize
-    @monome = Monome::Monome.new
-    @monome.listeners << self << Monome::Listeners::CornerToggles.new
+class SuperMagicFingers < Monome::Listener
+  on_start do
     @magic_squares = {}
   end
   
-  def button_pressed(x,y)
-    thread = Thread.new do
-      square_size = 1
-      diff = 1
-      loop do
-        draw_toggle_square(x,y,square_size)
-        sleep 0.01
-        diff *= -1 if square_size == 16 || square_size == 0
-        square_size += diff
-      end
+  loop_on_key_sustain do |x,y|
+    square_size = 1
+    diff = 1
+    loop do
+      draw_toggle_square(x,y,square_size)
+      sleep 0.01
+      diff *= -1 if square_size == 16 || square_size == 0
+      square_size += diff
     end
-    @magic_squares[[x,y]] = thread
   end
   
-  def button_released(x,y)
-    @magic_squares[[x,y]].kill
-  end
-  
-  def draw_toggle_square(x,y,size)
-    @monome.toggle_led(x + size ,y + size)
-    @monome.toggle_led(x + size ,y       )
-    @monome.toggle_led(x        ,y + size)
-    @monome.toggle_led(x - size ,y - size)
-    @monome.toggle_led(x - size ,y       )
-    @monome.toggle_led(x        ,y - size)
-    @monome.toggle_led(x - size ,y + size)
-    @monome.toggle_led(x + size ,y - size)
-  end
-  
-  def start
-    @monome.start
+  def self.draw_toggle_square(x,y,size)
+    monome.toggle_led(x + size ,y + size)
+    monome.toggle_led(x + size ,y       )
+    monome.toggle_led(x        ,y + size)
+    monome.toggle_led(x - size ,y - size)
+    monome.toggle_led(x - size ,y       )
+    monome.toggle_led(x        ,y - size)
+    monome.toggle_led(x - size ,y + size)
+    monome.toggle_led(x + size ,y - size)
   end
 end
 
-MagicFingers.new.start 
-
+Monome::Monome[128].with_listeners(SuperMagicFingers).start  if $0 == __FILE__
 

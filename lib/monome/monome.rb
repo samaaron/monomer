@@ -106,7 +106,6 @@ module Monome
         @on_start_listeners         << listener if listener.respond_to? :start
         @key_sustain_listeners      << listener if listener.respond_to? :key_sustain_on
       end
-      puts "@on_start_listeners: #{@on_start_listeners}"
     end
     
     # make sure our coordinates are always valid.

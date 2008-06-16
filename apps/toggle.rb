@@ -4,15 +4,12 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Blinker < Monome::Listener
+class Toggle < Monome::Listener
   
-  loop_on_key_sustain do
-    monome.all
-    sleep(0.1)
-    monome.clear
-    sleep(0.1)
+  on_key_down do |x,y|
+    monome.toggle_led(x,y)
   end
 
 end
 
-Monome::Monome[128].with_listeners(Blinker).start  if $0 == __FILE__
+Monome::Monome[128].with_listeners(Toggle).start if $0 == __FILE__

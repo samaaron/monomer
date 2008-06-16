@@ -352,13 +352,9 @@ module OSC
         end
       end
       
-      Thread.fork do
-        begin
+      
           block.call if block
-        rescue
-          Thread.main.raise $!
-        end
-      end
+       
       
       begin
         detector

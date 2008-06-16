@@ -2,33 +2,11 @@
 
 #this app demonstrates the power of the listener functionality. 
 #Essentially all of the programming of the app is captured in the three listers:
-#
-#Monome::Listeners::Toggle
-# a simple toggle listener that toggles a given key's led when pressed
-
-#Monome::Listeners::CornerToggles.new
-# a listener that listens out for four successive corner presses and clears/fills the monome depending in corner
-#
-#Monome::Listeners::Rectangles.new
-# a listener that listens for four rectangle corner presses (in any order) and the final corner being tapped twice. A
-# filled rectangle is then displayed
+#toggle, cornertoggles and rectangles (see corresponding listeners for their implementation)
 
 require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/rectangles'
+require File.dirname(__FILE__) + '/corner_toggles'
+require File.dirname(__FILE__) + '/toggle'
 
-class Paint
-  def initialize
-    @monome = Monome::Monome.new
-    @monome.listeners << Monome::Listeners::Toggle.new <<
-                         Monome::Listeners::CornerToggles.new << 
-                         Monome::Listeners::Rectangles.new
-                         
-  end
-  
-  def start
-    @monome.start
-  end
-end
-
-Paint.new.start 
-
-
+Monome::Monome[128].with_listeners(Toggle, Rectangles, CornerToggles).start
