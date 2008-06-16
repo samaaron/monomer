@@ -16,6 +16,10 @@ module Monome
         @led_status[[message.x, message.y]] = false
       when :led_on
         @led_status[[message.x, message.y]] = true
+      when :clear
+        @led_status = Hash.new(false)
+      when :all
+        @led_status = Hash.new(true)
       end
       @num_messages += 1
     end

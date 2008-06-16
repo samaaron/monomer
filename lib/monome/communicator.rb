@@ -59,7 +59,7 @@ module Monome
       set_sys_intensity(0)
       all
       1.upto(99)  {|i| set_sys_intensity(i/100.0) ; sleep(0.01)}
-      99.downto(1){|i| set_sys_intensity(i/100.0) ; sleep(0.01)}
+      99.downto(1){|i| set_sys_intensity(i/100.0) ; sleep(0.001)}
       clear
       set_sys_intensity(0.99)
     end

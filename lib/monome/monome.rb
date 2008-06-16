@@ -95,6 +95,7 @@ module Monome
       @listeners.each do |listener|
         @button_released_listeners  << listener if listener.respond_to? :button_released
         @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
+        @on_start_listeners         << listener if listener.respond_to? :start
       end
     end
     

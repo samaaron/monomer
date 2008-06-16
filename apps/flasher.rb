@@ -4,12 +4,9 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Random
-  def initialize
-    @monome = Monome::Monome.new
-  end
+class Random < Monome::Listener
   
-  def start
+  on_start do
     100.times do
       sleep 0.1
       @monome.all
@@ -20,4 +17,4 @@ class Random
   
 end
 
-Random.new.start
+Monome::Monome[128].with_listeners(Random).start

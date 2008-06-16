@@ -10,6 +10,12 @@ module Monome
       end
     end
     
+    def self.on_start(&block)
+      meta_def :on_start do
+        block
+      end
+    end
+    
     def initialize
       @key_threads = {}
     end
@@ -29,5 +35,8 @@ module Monome
       end
     end
     
+    def start
+      self.class.on_start.call
+    end
   end
 end
