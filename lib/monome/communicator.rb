@@ -55,8 +55,8 @@ module Monome
         @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
       end
       
-      def send_frame(offset_x, offset_y, col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8)
-        @client.send(OSC::Message.new("#{@prefix}/frame", nil, offset_x, offset_y, col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8))
+      def send_frame(offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8)
+        @client.send(OSC::Message.new("#{@prefix}/frame", nil, offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8))
       end
       
       def send_clear(led_status)
