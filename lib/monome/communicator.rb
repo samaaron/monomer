@@ -140,15 +140,15 @@ module Monome
       address['/sys/'] = ''
       params = mesg.to_a
       case address
-        when 'devices'
-          @state.devices = params[0]
-          @device_detected = true
-        when 'prefix'
-#          puts "unit #{params[0]} - prefix #{params[1]}" #TODO implement device management
-        when 'cable'
-#          puts "unit #{params[0]} - cable #{params[1]}" #TODO implement device management
-        when 'offset'
-#          puts "unit #{params[0]} - offset x#{params[1]} y#{params[2]}" #TODO implement device management
+      when 'devices'
+        @state.devices = params[0]
+        @device_detected = true
+      when 'prefix'
+#        puts "unit #{params[0]} - prefix #{params[1]}" #TODO implement device management
+      when 'cable'
+#        puts "unit #{params[0]} - cable #{params[1]}" #TODO implement device management
+      when 'offset'
+#        puts "unit #{params[0]} - offset x#{params[1]} y#{params[2]}" #TODO implement device management
       end
     end
     

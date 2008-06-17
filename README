@@ -1,3 +1,6 @@
+monomer
+  created by Sam Aaron, with contributions from Ullrich Schäfer
+
 This is a Ruby library to interact with the fantastic box of wonder that is the monome (http://monome.org)
 
 It is most definitely work in progress, is evolving rapidly, and is already great fun to play with :-)
@@ -8,10 +11,33 @@ In order to use this library, you must have monomeserial running. The address pa
 
 Enjoy!
 
-Sam Aaron
 
-P.S.
+Recommendation
 
 If you're planning on using a lot of threads, then I recommend using JRuby as the main interpreter. It's much faster (with cool stuff like JIT support) and has a decent thread implementation. If you're using JRuby, make sure you're using 1.1.2+ http://jruby.codehaus.org/
 
-P.P.S. Thanks also to Ullrich Schäfer (stigi) for contributions to this library
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2007 Tom Preston-Werner
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
