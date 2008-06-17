@@ -20,4 +20,4 @@ class Random < Monome::Listener
   end
 end
 
-Monome::Monome[128].with_listeners(Random).start  if $0 == __FILE__
+Monome::Monome.create.with_listeners(Random).start  if $0 == __FILE__

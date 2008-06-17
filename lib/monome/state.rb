@@ -33,6 +33,18 @@ module Monome
     def led_status(x,y)
       @led_status[[x,y]]
     end
+    
+    def devices=(devices)
+      case devices
+      when 1
+        @monome_type = '64' #mhmm what about good old 40h now?
+      when 2
+        @monome_type = '128'
+      when 4
+        @monome_type = '256'
+      end
+      @max_x, @max_y = find_max_coords_from_monome_type
+    end
         
     private
     

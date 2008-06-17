@@ -33,5 +33,5 @@ class SuperMagicFingers < Monome::Listener
   end
 end
 
-Monome::Monome[128].with_listeners(SuperMagicFingers).start  if $0 == __FILE__
+Monome::Monome.create.with_listeners(SuperMagicFingers).start  if $0 == __FILE__
 

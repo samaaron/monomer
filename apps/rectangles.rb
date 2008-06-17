@@ -64,4 +64,4 @@ class Rectangles < Monome::Listener
   end
 end
 
-Monome::Monome[128].with_listeners(Rectangles).start  if $0 == __FILE__
+Monome::Monome.create.with_listeners(Rectangles).start  if $0 == __FILE__

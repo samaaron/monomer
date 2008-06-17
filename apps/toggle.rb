@@ -12,4 +12,4 @@ class Toggle < Monome::Listener
 
 end
 
-Monome::Monome[128].with_listeners(Toggle).start if $0 == __FILE__
+Monome::Monome.create.with_listeners(Toggle).start if $0 == __FILE__

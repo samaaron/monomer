@@ -9,4 +9,4 @@ require File.dirname(__FILE__) + '/rectangles'
 require File.dirname(__FILE__) + '/corner_toggles'
 require File.dirname(__FILE__) + '/toggle'
 
-Monome::Monome[128].with_listeners(Toggle, Rectangles, CornerToggles).start
+Monome::Monome.create.with_listeners(Toggle).start

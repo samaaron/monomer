@@ -22,4 +22,4 @@ class MagicFingers < Monome::Listener
   
 end
 
-Monome::Monome[128].with_listeners(MagicFingers).start  if $0 == __FILE__
+Monome::Monome.create.with_listeners(MagicFingers).start  if $0 == __FILE__

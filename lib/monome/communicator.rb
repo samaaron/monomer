@@ -45,12 +45,26 @@ module Monome
       @server.add_method(/^#{@prefix}\/press/i)  { |mesg| do_press(mesg)  } 
       @server.add_method(/^#{@prefix}\/adc/i)    { |mesg| do_adc(mesg)    }
       @server.add_method(/^#{@prefix}\/prefix/i) { |mesg| do_prefix(mesg) }
-      @server.add_method(nil)                    { |mesg| do_dump(mesg)   }
-      @server.run(&block)
+      @server.add_method(/^\/sys\//i)            { |mesg| do_sys(mesg)    }
+#      @server.add_method(nil)                    { |mesg| do_dump(mesg)   }
+
+      get_sys_report # send initial request to gather unit data. is this the right place for it?
+      @device_detected = false
+      @server.run do
+        Thread.fork do
+          while !@device_detected do
+            # we need to wait with the execution of the start block till the device was set up
+            # (till we know which device we're dealing with)
+            sleep 0.1
+          end
+      
+          block.call if block
+        end
+      end
     end
     
     def status
-      @client.send(OSC::Message.new("/sys/report",nil))
+      get_sys_report
     end
     
     private
@@ -76,6 +90,10 @@ module Monome
       @client.send(OSC::Message.new("/sys/cable", nil, orientation))
     end
     
+    def get_sys_report
+      @client.send(OSC::Message.new("/sys/report",nil))
+    end
+    
     def send_led(x,y,led_status)
       @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
     end
@@ -92,7 +110,7 @@ module Monome
       @client.send(OSC::Message.new("#{@prefix}/clear", nil, led_status))
     end
     
-    # do_ hooks to reacto on messages from monomeserial
+    # do_ hooks to react on messages from monomeserial
     def do_press mesg
       x,y =  mesg.to_a[0..1]
       if mesg.to_a[2] == 1 
@@ -115,6 +133,23 @@ module Monome
     def do_dump mesg
       params = mesg.to_a.join(',')
       puts "#{mesg.address}: #{params}"
+    end
+    
+    def do_sys mesg
+      address = mesg.address
+      address['/sys/'] = ''
+      params = mesg.to_a
+      case address
+        when 'devices'
+          @state.devices = params[0]
+          @device_detected = true
+        when 'prefix'
+#          puts "unit #{params[0]} - prefix #{params[1]}" #TODO implement device management
+        when 'cable'
+#          puts "unit #{params[0]} - cable #{params[1]}" #TODO implement device management
+        when 'offset'
+#          puts "unit #{params[0]} - offset x#{params[1]} y#{params[2]}" #TODO implement device management
+      end
     end
     
     def draw_naeu
