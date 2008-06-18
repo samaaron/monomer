@@ -14,7 +14,7 @@ module Monomer
     
     attr_accessor :listeners
     
-    def initialize(monome_type='64', prefix='monomer', in_port=8000, out_port=8080)
+    def initialize(monome_type='128', prefix='monomer', in_port=8000, out_port=8080)
       raise "Unknown monome type" unless ['40h', '64', '128', '256'].include? monome_type
       @state = State.new(monome_type)
       @communicator = Communicator.new(self, @state, monome_type, prefix, in_port, out_port)
@@ -91,6 +91,12 @@ module Monomer
     
     def status
       @communicator.status
+    end
+    
+    def spawn(&block)
+      Thread.new do
+        block.call
+      end
     end
     
     private
