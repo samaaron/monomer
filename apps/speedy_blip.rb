@@ -4,7 +4,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class SpeedyBlip < Monome::Listener
+class SpeedyBlip < Monomer::Listener
   on_start do
     previous_x = 0
     previous_y = 0
@@ -22,4 +22,4 @@ class SpeedyBlip < Monome::Listener
   end
 end
 
-Monome::Monome.create.with_listeners(SpeedyBlip).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(SpeedyBlip).start  if $0 == __FILE__

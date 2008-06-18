@@ -2,8 +2,7 @@
 # - http://docs.monome.org/doku.php?id=tech:protocol:osc
 # - http://docs.monome.org/doku.php?id=tech:protocol:osc2
 
-require 'osc'
-module Monome
+module Monomer
   class Communicator
     attr_accessor :listeners
     attr_reader :max_x, :max_y, :led_status
@@ -49,9 +48,7 @@ module Monome
 
       get_sys_report # send initial request to gather unit data. is this the right place for it?
       @device_detected = false
-      @server.run do
-         block.call if block
-      end
+      @server.run(&block)
     end
     
     def status

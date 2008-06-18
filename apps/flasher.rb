@@ -4,7 +4,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Flasher < Monome::Listener
+class Flasher < Monomer::Listener
   
   on_start do
     100.times do
@@ -17,4 +17,4 @@ class Flasher < Monome::Listener
   
 end
 
-Monome::Monome.create.with_listeners(Flasher).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(Flasher).start  if $0 == __FILE__

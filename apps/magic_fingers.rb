@@ -2,7 +2,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class MagicFingers < Monome::Listener
+class MagicFingers < Monomer::Listener
   
   on_key_down do |x,y|
     puts "self: #{self}"
@@ -22,4 +22,4 @@ class MagicFingers < Monome::Listener
   
 end
 
-Monome::Monome.create.with_listeners(MagicFingers).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(MagicFingers).start  if $0 == __FILE__

@@ -1,4 +1,4 @@
-module Monome
+module Monomer
   class State    
     attr_reader :max_x, :max_y
     

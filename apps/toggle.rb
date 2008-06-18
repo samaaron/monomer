@@ -4,12 +4,19 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Toggle < Monome::Listener
+class Toggle < Monomer::Listener
+  
+  before_start do
+    puts 'starting midi'
+    @midi = Monomer::MidiOut.new
+    puts 'midi ready'
+  end
   
   on_key_down do |x,y|
+    @midi.on (y * 8 + x)
     monome.toggle_led(x,y)
   end
 
 end
 
-Monome::Monome.create.with_listeners(Toggle).start if $0 == __FILE__
+Monomer::Monome.create.with_listeners(Toggle).start if $0 == __FILE__

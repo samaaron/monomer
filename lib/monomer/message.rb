@@ -1,4 +1,4 @@
-module Monome
+module Monomer
   class Message
     attr_reader :id, :message, :time, :x, :y
     def initialize(id, message, time, x=nil, y=nil)

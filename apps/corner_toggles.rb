@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 
 #press a corner 4 times to either clear or fill the monome with light
 
-class CornerToggles < Monome::Listener
+class CornerToggles < Monomer::Listener
   
   on_start do
     @required_number_of_consecutive_taps = 3
@@ -34,4 +34,4 @@ class CornerToggles < Monome::Listener
   end
 end
 
-Monome::Monome.create.with_listeners(CornerToggles).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(CornerToggles).start  if $0 == __FILE__

@@ -4,7 +4,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Blinker < Monome::Listener
+class Blinker < Monomer::Listener
   
   loop_on_key_sustain do
     monome.all
@@ -15,4 +15,4 @@ class Blinker < Monome::Listener
 
 end
 
-Monome::Monome.create.with_listeners(Blinker).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(Blinker).start  if $0 == __FILE__

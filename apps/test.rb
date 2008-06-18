@@ -2,7 +2,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Test < Monome::Listener
+class Test < Monomer::Listener
   on_start do
     1.times do
      puts"#{monome.max_x}"
@@ -17,4 +17,4 @@ class Test < Monome::Listener
   end
 end
 
-Monome::Monome.create.with_listeners(Test).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(Test).start  if $0 == __FILE__

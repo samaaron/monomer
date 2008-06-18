@@ -9,7 +9,7 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 
 configure do
             
-  M = Monome::Monome.new
+  M = Monomer::Monome.new
 
 end
 

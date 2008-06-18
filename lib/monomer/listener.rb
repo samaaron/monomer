@@ -1,4 +1,4 @@
-module Monome
+module Monomer
   class Listener
     def self.monome
       Monome.monome
@@ -22,6 +22,16 @@ module Monome
           thread.kill
           @key_threads[[x,y]] = nil
         end
+      end
+    end
+    
+    def self.before_start(&block)
+      meta_def :before_start do
+        block
+      end
+      
+      def before_start
+        self.class.before_start.call
       end
     end
     

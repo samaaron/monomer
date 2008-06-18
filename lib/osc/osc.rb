@@ -352,9 +352,7 @@ module OSC
         end
       end
       
-      
-          block.call if block
-       
+      block.call if block
       
       begin
         detector

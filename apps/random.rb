@@ -4,7 +4,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class Random < Monome::Listener
+class Random < Monomer::Listener
   on_start do
     10000000.times do
       flash_random_led
@@ -20,4 +20,4 @@ class Random < Monome::Listener
   end
 end
 
-Monome::Monome.create.with_listeners(Random).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(Random).start  if $0 == __FILE__

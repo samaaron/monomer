@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 # a listener that listens for four rectangle corner presses (in any order) and the final corner being tapped twice. A
 # filled rectangle is then displayed
 
-class Rectangles < Monome::Listener
+class Rectangles < Monomer::Listener
   
   class Coord
     attr_accessor :x, :y
@@ -64,4 +64,4 @@ class Rectangles < Monome::Listener
   end
 end
 
-Monome::Monome.create.with_listeners(Rectangles).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(Rectangles).start  if $0 == __FILE__

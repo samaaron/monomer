@@ -1,4 +1,4 @@
-module Monome
+module Monomer
   class Monome
     
     class << self      
@@ -23,6 +23,7 @@ module Monome
       @button_released_listeners = []
       @on_start_listeners = []
       @key_sustain_listeners = []
+      @before_start_listeners = []
       clear
     end
     
@@ -80,12 +81,12 @@ module Monome
     end
     
     def start
-      puts 'starting'
       register_self_with_listeners
       determine_listener_hooks
+      @before_start_listeners.each {|listener| listener.before_start}
       @communicator.start do
         @on_start_listeners.each {|listener| listener.start}
-      end
+      end      
     end
     
     def status
@@ -104,6 +105,7 @@ module Monome
         @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
         @on_start_listeners         << listener if listener.respond_to? :start
         @key_sustain_listeners      << listener if listener.respond_to? :key_sustain_on
+        @before_start_listeners     << listener if listener.respond_to? :before_start
       end
     end
     

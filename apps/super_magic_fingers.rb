@@ -5,7 +5,7 @@
 
 require File.dirname(__FILE__) + '/../lib/monomer'
 
-class SuperMagicFingers < Monome::Listener
+class SuperMagicFingers < Monomer::Listener
   on_start do
     @magic_squares = {}
   end
@@ -33,5 +33,5 @@ class SuperMagicFingers < Monome::Listener
   end
 end
 
-Monome::Monome.create.with_listeners(SuperMagicFingers).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(SuperMagicFingers).start  if $0 == __FILE__
 

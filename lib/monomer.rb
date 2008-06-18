@@ -1,15 +1,19 @@
 $:.unshift File.dirname(__FILE__) # For use/testing when no gem is installed
-$:.unshift File.dirname(__FILE__) + '/osc'
-$:.unshift File.dirname(__FILE__) + '/monome'
-$:.unshift File.dirname(__FILE__) + '/midi'
-
 
 #require core
-require 'monome/communicator'
-require 'monome/monome'
-require 'monome/state'
-require 'monome/message'
-require 'monome/listener'
+require 'monomer/communicator'
+require 'monomer/monome'
+require 'monomer/state'
+require 'monomer/message'
+require 'monomer/listener'
+require 'monomer/midi_out'
+
+#require osc
+require 'osc/osc'
+
+#require java and midi
+require 'java'
+require 'midi/javamidi'
 
 #require crazy shit
 require '_why/metaid'

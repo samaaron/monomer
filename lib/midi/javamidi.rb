@@ -10,8 +10,6 @@
 # puts "lib_path: " + Java::JavaLang::System.getProperty("java.library.path")
 
 require 'rbconfig'
-require 'java'
-
 
 # `export CLASSPATH=$CLASSPATH:/Users/sam/Development/monomer/lib/java`
 # $CLASSPATH.append File.dirname(__FILE__) + '/../java/'
