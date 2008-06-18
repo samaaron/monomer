@@ -6,7 +6,7 @@
 require File.dirname(__FILE__) + '/../lib/monomer'
 
 class SuperMagicFingers < Monomer::Listener
-  on_start do
+  before_start do
     @magic_squares = {}
   end
   

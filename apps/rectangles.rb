@@ -25,7 +25,7 @@ class Rectangles < Monomer::Listener
     alias_method :eql?, :==
   end
   
-  on_start do
+  before_start do
     @last_five_taps = [[0,0],[0,0],[0,0],[0,0],[0,0]]
   end
   

@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 
 class CornerToggles < Monomer::Listener
   
-  on_start do
+  before_start do
     @required_number_of_consecutive_taps = 3
     @number_of_consecutive_taps = 0
     @last_key = []
