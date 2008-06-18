@@ -167,7 +167,7 @@ if RUBY_PLATFORM.include?('java') and Config::CONFIG["host_os"].include?('darwin
 
   # place mmj.jar && libmmj.jnilib in /Library/Java/Extensions and set classpath to include this folder
   # export CLASSPATH=$CLASSPATH:/Library/JAVA/Extensions
-  require 'mmj.jar'
+  require File.dirname(__FILE__) + '/mmj'
 
   class System
     module MMJ

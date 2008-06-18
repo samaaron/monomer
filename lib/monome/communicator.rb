@@ -72,7 +72,7 @@ module Monome
     def fade_in_and_out
       set_sys_intensity(0)
       draw_inverted_naeu
-      1.upto(99)  {|i| set_sys_intensity(i/100.0) ; sleep(0.02)}
+      1.upto(99)  {|i| set_sys_intensity(i/100.0) ; sleep(0.01)}
       99.downto(1){|i| set_sys_intensity(i/100.0) ; sleep(0.002)}
       clear
       set_sys_intensity(0.99)
@@ -141,6 +141,7 @@ module Monome
       params = mesg.to_a
       case address
       when 'devices'
+        puts mesg.to_a
         @state.devices = params[0]
         @device_detected = true
       when 'prefix'

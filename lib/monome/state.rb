@@ -37,7 +37,7 @@ module Monome
     def devices=(devices)
       case devices
       when 1
-        @monome_type = '64' #mhmm what about good old 40h now?
+        @monome_type = '128' #mhmm what about good old 40h now?
       when 2
         @monome_type = '128'
       when 4
