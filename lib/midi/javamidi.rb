@@ -2,9 +2,21 @@
 
 ## see README
 
+#shame I can't quite get this to have any effect
+# lib_path = Java::JavaLang::System.getProperty("java.library.path")
+# java_dir = File.expand_path(File.dirname(__FILE__) + '/../java/')
+# puts java_dir
+# Java::JavaLang::System.setProperty("java.library.path", java_dir + ':' + lib_path)
+# puts "lib_path: " + Java::JavaLang::System.getProperty("java.library.path")
+
 require 'rbconfig'
 require 'java'
 
+
+# `export CLASSPATH=$CLASSPATH:/Users/sam/Development/monomer/lib/java`
+# $CLASSPATH.append File.dirname(__FILE__) + '/../java/'
+# $CLASSPATH.append File.dirname(__FILE__) + '/../java'
+# $CLASSPATH.append File.dirname(__FILE__) + '/../java/mmj/'
 module Midi
   class Message
     # see http://tomscarff.tripod.com/midi_analyser/midi_messages.htm
@@ -165,10 +177,8 @@ module Midi
     
 if RUBY_PLATFORM.include?('java') and Config::CONFIG["host_os"].include?('darwin')
 
-  # place mmj.jar && libmmj.jnilib in /Library/Java/Extensions and set classpath to include this folder
-  # export CLASSPATH=$CLASSPATH:/Library/JAVA/Extensions
 
-  #require File.dirname(__FILE__) + '/mmj'
+  require File.dirname(__FILE__) + '/../java/mmj'
 
   class System
     module MMJ

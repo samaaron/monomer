@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+system "cp #{File.dirname(__FILE__)}/../lib/java/* /Library/Java/Extensions/"

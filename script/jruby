@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+system "/usr/bin/env jruby -J-Djava.library.path=#{File.dirname(__FILE__)}/../lib/java #{ARGV[0]}"
