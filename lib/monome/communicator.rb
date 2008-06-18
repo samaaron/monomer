@@ -141,8 +141,13 @@ module Monome
       params = mesg.to_a
       case address
       when 'devices'
-        @state.devices = params[0]
-        @device_detected = true
+        #        puts "devices - #{params[0]}" #TODO implement device management
+      when 'type'
+        #TODO implement device management. for now only take from device 1
+        if params[0] = 0
+          @state.type = params[1]
+          @device_detected = true
+        end
       when 'prefix'
 #        puts "unit #{params[0]} - prefix #{params[1]}" #TODO implement device management
       when 'cable'
