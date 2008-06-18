@@ -11,10 +11,27 @@ In order to use this library, you must have monomeserial running. The address pa
 
 Enjoy!
 
+== Installation
 
-Recommendation
+* install JRuby version 1.1.2 or greater and make sure jruby is in your PATH (http://jruby.codehaus.org/),
+* launch monomeserial,
+* download monomer (the tarball would do just fine),
+* copy the mmj .jar and .jnilib files found in lib/java/ to /Library/Java/Extensions,
+* launch audio midi setup (found in /Applications/Utilities),
+* double-click on the IAC driver icon,
+* click on the little plus button to add a new port,
+* rename the two ports to in and out,
+* click the 'device is online' toggle at the top,
+* using the terminal navigate to the apps directory inside monomer,
+* decide which app to launch,
+* launch it with ./app_name.rb e.g:
+* ./blinken_lights.rb
+* make sure you have something set up to receive the midi (garage band will do),
+* enjoy!
 
-If you're planning on using a lot of threads, then I recommend using JRuby as the main interpreter. It's much faster (with cool stuff like JIT support) and has a decent thread implementation. If you're using JRuby, make sure you're using 1.1.2+ http://jruby.codehaus.org/
+Caveats
+
+This library has been developed and tested using a monome 128 and on OS X Leopard. If you have any issues with the 40h, 64 and 256 monomes, please contact me and I'll help as soon as I can. Monomer requires the JRuby interpreter. It's much faster (with cool stuff like JIT support) and has a decent thread implementation. Make sure you're using v1.1.2+ If things aren't working on Windows and you know how to fix them, I'll be happy to receive pull requests. Also cable orientation other than up isn't available yet, although it is planned.
 
 == Midi support requirement:
  - Requires usage of JRuby 1.1.2+
