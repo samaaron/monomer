@@ -36,7 +36,7 @@ module Monome
     
     def type=(type)
       raise 'illegal type' unless ['40h', '64', '128', '256'].include? type
-      @monome_type = type
+      @monome_type = '128'
       @max_x, @max_y = find_max_coords_from_monome_type
     end
         

@@ -46,20 +46,11 @@ module Monome
       @server.add_method(/^#{@prefix}\/adc/i)    { |mesg| do_adc(mesg)    }
       @server.add_method(/^#{@prefix}\/prefix/i) { |mesg| do_prefix(mesg) }
       @server.add_method(/^\/sys\//i)            { |mesg| do_sys(mesg)    }
-#      @server.add_method(nil)                    { |mesg| do_dump(mesg)   }
 
       get_sys_report # send initial request to gather unit data. is this the right place for it?
       @device_detected = false
       @server.run do
-        Thread.fork do
-          while !@device_detected do
-            # we need to wait with the execution of the start block till the device was set up
-            # (till we know which device we're dealing with)
-            sleep 0.1
-          end
-      
-          block.call if block
-        end
+         block.call if block
       end
     end
     
