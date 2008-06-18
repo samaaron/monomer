@@ -16,6 +16,11 @@ Recommendation
 
 If you're planning on using a lot of threads, then I recommend using JRuby as the main interpreter. It's much faster (with cool stuff like JIT support) and has a decent thread implementation. If you're using JRuby, make sure you're using 1.1.2+ http://jruby.codehaus.org/
 
+== Midi support requirement:
+ - Requires usage of JRuby 1.1.2+
+ - Mac OS X + Java 1.4.2+ (more systems to follow)
+ - mmj library from http://www.humatic.de/htools/mmj/ (place mmj.jar & libmmj.jnilib in classpath, e.g. /Library/Java/Extensions)
+
 
 == LICENSE:
 
