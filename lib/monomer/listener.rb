@@ -39,7 +39,7 @@ module Monomer
       meta_def :on_start do
         block
       end
-      
+            
       def start
         thread = Thread.new do
           self.class.on_start.call
@@ -51,12 +51,13 @@ module Monomer
       meta_def :on_key_down do
         block
       end
-      
+
       def button_pressed(x,y)
         Thread.new do
           self.class.on_key_down.call(x,y)
         end
       end
+      
     end
     
     def self.on_key_up(&block)

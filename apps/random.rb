@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 
 class Random < Monomer::Listener
   on_start do
-    10000000.times do
+    10_000_000.times do
       flash_random_led
     end
   end

@@ -16,8 +16,8 @@ module Monomer
     
     def initialize(monome_type='128', prefix='monomer', in_port=8000, out_port=8080)
       raise "Unknown monome type" unless ['40h', '64', '128', '256'].include? monome_type
-      @state = State.new(monome_type)
-      @communicator = Communicator.new(self, @state, monome_type, prefix, in_port, out_port)
+      @state = Core::State.new(monome_type)
+      @communicator = Core::Communicator.new(self, @state, monome_type, prefix, in_port, out_port)
       @listeners = []
       @button_pressed_listeners = []
       @button_released_listeners = []
@@ -107,6 +107,8 @@ module Monomer
     
     def determine_listener_hooks
       @listeners.each do |listener|
+        puts "listener: #{listener}"
+        puts "listener.methods.sort - Object.new.methods: #{listener.methods.sort - Object.new.methods}"
         @button_released_listeners  << listener if listener.respond_to? :button_released
         @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
         @on_start_listeners         << listener if listener.respond_to? :start

@@ -1,4 +1,5 @@
-monomer
+== monomer
+
   created by Sam Aaron, with contributions from Ullrich Schäfer
 
 This is a Ruby library to interact with the fantastic box of wonder that is the monome (http://monome.org)
@@ -29,7 +30,7 @@ Enjoy!
 * make sure you have something set up to receive the midi (garage band will do),
 * enjoy!
 
-Caveats
+== Caveats
 
 This library has been developed and tested using a monome 128 and on OS X Leopard. If you have any issues with the 40h, 64 and 256 monomes, please contact me and I'll help as soon as I can. Monomer requires the JRuby interpreter. It's much faster (with cool stuff like JIT support) and has a decent thread implementation. Make sure you're using v1.1.2+ If things aren't working on Windows and you know how to fix them, I'll be happy to receive pull requests. Also cable orientation other than up isn't available yet, although it is planned.
 

@@ -3,6 +3,7 @@
 #monomer version of Stretta's Blinken Park: http://docs.monome.org/doku.php?id=app:blinken_park
 
 require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/toggle'
 
 class BlinkinLights < Monomer::Listener
   before_start do
@@ -21,15 +22,15 @@ class BlinkinLights < Monomer::Listener
   end
   
   on_key_down do |x,y|
-    @spawn_rate = ((x.to_f / monome.max_x.to_f) * 1) + 0.2
-    @sustain = y + 0.2
+    @spawn_rate = ((x.to_f / monome.max_x.to_f) * 1) + 0.01
+    @sustain = y + 0.1
     puts "spawn_rate: #{@spawn_rate}"
     puts "sustain:    #{@sustain}"
   end
   
   def self.light_random_led(sustain)
-    x = rand(monome.max_x + 1)
-    y = rand(monome.max_y + 1)
+    x = rand(monome.max_x)
+    y = rand(monome.max_y)
     monome.led_on(x,y)
     @midi.on(x * 8) rescue nil #need to figure out what the midi integers really mean...
     sleep sustain
@@ -39,4 +40,4 @@ class BlinkinLights < Monomer::Listener
   
 end
 
-Monomer::Monome.create.with_listeners(BlinkinLights).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(BlinkinLights, Toggle).start  if $0 == __FILE__

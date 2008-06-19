@@ -13,7 +13,7 @@ module Monomer
     
     
     def off(note, velocity=1)
-      @midi_out.send(Midi::MessageOff.new(velocity, note))
+      @midi_out.send(Midi::MessageOff.new(velocity, note  ))
     end
     
     def yo(m)

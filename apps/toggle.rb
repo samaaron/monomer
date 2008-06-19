@@ -7,7 +7,6 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 class Toggle < Monomer::Listener
   
   on_key_down do |x,y|
-    @midi.on (y * 8 + x)
     monome.toggle_led(x,y)
   end
 
