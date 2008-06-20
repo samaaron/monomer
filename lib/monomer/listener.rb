@@ -9,7 +9,7 @@ module Monomer
         block
       end
       
-      def key_sustain_on(x,y)
+      define_method :key_sustain_on do |x,y|
         @key_threads[[x,y]] = Thread.new do
           loop do
             self.class.loop_on_key_sustain.call(x,y)
@@ -17,7 +17,7 @@ module Monomer
         end
       end
       
-      def key_sustain_off(x,y)
+      define_method :key_sustain_off do |x,y|
         if thread = @key_threads[[x,y]]
           thread.kill
           @key_threads[[x,y]] = nil
@@ -30,7 +30,7 @@ module Monomer
         block
       end
       
-      def before_start
+      define_method :before_start do
         self.class.before_start.call
       end
     end
@@ -40,7 +40,7 @@ module Monomer
         block
       end
             
-      def start
+      define_method :start do
         thread = Thread.new do
           self.class.on_start.call
         end
@@ -52,7 +52,7 @@ module Monomer
         block
       end
 
-      def button_pressed(x,y)
+      define_method :button_pressed do |x,y|
         Thread.new do
           self.class.on_key_down.call(x,y)
         end
@@ -65,7 +65,7 @@ module Monomer
         block
       end
       
-      def button_released(x,y)
+      define_method :button_released do |x,y|
         Thread.new do
           self.class.on_key_up.call(x,y)
         end

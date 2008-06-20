@@ -107,8 +107,6 @@ module Monomer
     
     def determine_listener_hooks
       @listeners.each do |listener|
-        puts "listener: #{listener}"
-        puts "listener.methods.sort - Object.new.methods: #{listener.methods.sort - Object.new.methods}"
         @button_released_listeners  << listener if listener.respond_to? :button_released
         @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
         @on_start_listeners         << listener if listener.respond_to? :start

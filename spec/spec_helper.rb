@@ -3,4 +3,4 @@ require 'rubygems'
 require 'spec'
 
 #pull in monomer
-require File.dirname(__FILE__) + '/../monomer'
+require File.dirname(__FILE__) + '/../lib/monomer'
