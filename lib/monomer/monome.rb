@@ -71,7 +71,6 @@ module Monomer
       x,y = normalize(x,y)
       @button_pressed_listeners.each {|listener| listener.button_pressed(x,y)}
       @key_sustain_listeners.each    {|listener| listener.key_sustain_on(x,y)}
-      
     end
     
     def button_released(x,y)
