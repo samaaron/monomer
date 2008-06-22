@@ -6,7 +6,7 @@ module Monomer
       def initialize(monome_type='128')
         @monome_type = monome_type
         @max_x, @max_y = find_max_coords_from_monome_type
-        @led_status = Hash.new(false)
+        @lights = Lights.new(@max_x, @max_y)
         @num_messages = 0
       end
       
@@ -14,25 +14,25 @@ module Monomer
         message = Message.new(@num_messages, message[:message], message[:time], message[:x], message[:y])
         case message.message
         when :led_off
-          @led_status[[message.x, message.y]] = false
+          @lights.turn_off(message.x, message.y)
         when :led_on
-          @led_status[[message.x, message.y]] = true
+          @lights.turn_on(message.x, message.y)
         when :clear
-          @led_status = Hash.new(false)
+          @lights.clear
         when :all
-          @led_status = Hash.new(true)
+          @lights.all
         end
         @num_messages += 1
       end
       
       def ascii_status(join_string="\n")
         result = ""
-        (0..@max_y).each{|y| result << (0..@max_x).map{|x| @led_status[[x,y]] ? '* ' : '- '}.join + join_string}
+        (0..@max_y).each{|y| result << (0..@max_x).map{|x| @lights.status(x,y) ? '* ' : '- '}.join + join_string}
         result
       end
       
       def led_status(x,y)
-        @led_status[[x,y]]
+        @lights.status(x,y)
       end
       
       def monome_type=(type)
@@ -57,3 +57,4 @@ module Monomer
   end
 end
 
+  

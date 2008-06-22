@@ -9,6 +9,8 @@ require 'monomer/midi_out'
 require 'monomer/core/communicator'
 require 'monomer/core/state'
 require 'monomer/core/message'
+require 'monomer/core/lights'
+require 'monomer/core/led'
 
 #require osc
 require 'osc/osc'
