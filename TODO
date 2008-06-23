@@ -1,9 +1,3 @@
-* Understand and correctly use the OSC protocol. Currently everything is sent to /test. This can clearly be improved upon
-  - for example, there is the /frame method which seemingly can be used to light all the leds at once
-  
-* Build a smarter way to create and manage independent threads of execution
-
-* Look into communicating with monome directly (bypassing OSC) 
-  - would that make things more efficient and be worth the effort?
-  
-* Create hooks to generate arbitrary OSC messages to control other devices
+* Create hooks to generate and receive arbitrary OSC messages to and from other devices
+* Develop interface to associate blocks with explicit buttons (what kind of app would need this?)
+* Develop a way of generating finite state machines that are traversed through button combinations (useful for corner_toggles)
