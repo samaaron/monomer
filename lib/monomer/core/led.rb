@@ -5,22 +5,22 @@ module Monomer
         @on_stack = []
       end
       
-      def turn_on(thread)
-        return false if @on_stack.include? thread
-        @on_stack << thread
+      def turn_on(thread_name)
+        return false if @on_stack.include? thread_name
+        @on_stack << thread_name
         @on_stack.size == 1 ? true : false
       end
       
-      def turn_off(thread)
-        @on_stack.delete thread
+      def turn_off(thread_name)
+        @on_stack.delete thread_name
         @on_stack.empty? ? true : false
       end
       
-      def toggle(thread)
-        if @on_stack.include?(thread)
-          return turn_off(thread) ? :off : nil
+      def toggle(thread_name)
+        if @on_stack.include?(thread_name)
+          return turn_off(thread_name) ? :off : nil
         else
-          return turn_on(thread) ? :on : nil
+          return turn_on(thread_name) ? :on : nil
         end
       end
     end
