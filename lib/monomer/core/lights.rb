@@ -5,16 +5,16 @@ module Monomer
         @leds = {}
       end
       
-      def turn_on(x, y, thread)
-        led(x,y).turn_on(thread)
+      def turn_on(x, y, thread_name)
+        led(x,y).turn_on(thread_name)
       end
       
-      def turn_off(x, y, thread)
-        led(x,y).turn_off(thread)
+      def turn_off(x, y, thread_name)
+        led(x,y).turn_off(thread_name)
       end
       
-      def toggle(x, y, thread)
-        led(x,y).toggle(thread)
+      def toggle(x, y, thread_name)
+        led(x,y).toggle(thread_name)
       end
       
       def clear

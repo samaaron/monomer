@@ -10,16 +10,16 @@ module Monomer
         @num_messages = 0
       end
       
-      def led_on(x, y, thread)
-        @lights.turn_on(x, y, thread)
+      def led_on(x, y, thread_name)
+        @lights.turn_on(x, y, thread_name)
       end
       
-      def led_off(x, y, thread)
-        @lights.turn_off(x, y, thread)
+      def led_off(x, y, thread_name)
+        @lights.turn_off(x, y, thread_name)
       end
       
-      def toggle_led(x, y, thread)
-        @lights.toggle(x, y, thread)
+      def toggle_led(x, y, thread_name)
+        @lights.toggle(x, y, thread_name)
       end
       
       def notify(message)
