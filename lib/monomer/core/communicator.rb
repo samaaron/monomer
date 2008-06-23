@@ -28,6 +28,10 @@ module Monomer
         send_led(x,y,0)
       end
       
+      def light_column(col, *pattern)
+        send_col(col, pattern.to_s.to_i(2))
+      end
+      
       def clear
         @state.notify(:message => :clear, :time => Time.now)
         send_clear(0)
@@ -87,6 +91,10 @@ module Monomer
       
       def send_row(row_num, decimal)
         @client.send(OSC::Message.new("#{@prefix}/led_row", nil, row_num, decimal))
+      end
+      
+      def send_col(col_num, decimal)
+        @client.send(OSC::Message.new("#{@prefix}/led_col", nil, col_num, decimal))
       end
       
       def send_frame(offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8)

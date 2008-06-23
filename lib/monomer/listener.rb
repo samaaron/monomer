@@ -57,7 +57,7 @@ module Monomer
     
     def self.init
       @key_threads = {}
-      self 
+      self  
     end
     
     def self.change_to_s_of_this_thread_to_map_to_calling_class

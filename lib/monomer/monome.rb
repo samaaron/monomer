@@ -64,6 +64,14 @@ module Monomer
       end
     end
     
+    def clear_column(col)
+      light_column(col, 0,0,0,0,0,0,0,0)
+    end
+    
+    def light_column(col, *pattern)
+      @communicator.light_column(col, *pattern)
+    end
+    
     def clear
       @communicator.clear
     end
