@@ -3,7 +3,6 @@
 #monomer version of Stretta's Blinken Park: http://docs.monome.org/doku.php?id=app:blinken_park
 
 require File.dirname(__FILE__) + '/../lib/monomer'
-require File.dirname(__FILE__) + '/toggle'
 
 class BlinkinLights < Monomer::Listener
   before_start do
@@ -37,4 +36,4 @@ class BlinkinLights < Monomer::Listener
   
 end
 
-Monomer::Monome.create.with_listeners(BlinkinLights, Toggle).start  if $0 == __FILE__
+Monomer::Monome.create.with_listeners(BlinkinLights).start  if $0 == __FILE__

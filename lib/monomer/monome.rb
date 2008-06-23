@@ -28,7 +28,7 @@ module Monomer
     end
     
     def with_listeners(*listeners)
-      self.listeners = listeners.map {|listener| listener.new}
+      self.listeners = listeners.map{|listener| listener.init}
       self
     end
     
@@ -45,18 +45,23 @@ module Monomer
     end
     
     def led_on(x,y)
-      x,y = normalize(x,y)
-      @communicator.led_on(x,y)
+      need_to_turn_led_on = @state.led_on(x,y, Thread.current.to_s)
+      @communicator.led_on(x,y) if need_to_turn_led_on
     end
     
     def led_off(x,y)
-      x,y = normalize(x,y)
-      @communicator.led_off(x,y)
+      need_to_turn_led_off = @state.led_off(x,y, Thread.current.to_s)
+      @communicator.led_off(x,y) if need_to_turn_led_off
     end
     
     def toggle_led(x,y)
-      x,y = normalize(x,y)
-      @state.led_status(x,y) ? led_off(x,y) : led_on(x,y)
+      action = @state.toggle_led(x,y, Thread.current.to_s)
+      case action
+      when :on
+        @communicator.led_on(x,y)
+      when :off
+        @communicator.led_off(x,y)
+      end
     end
     
     def clear

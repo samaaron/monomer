@@ -10,13 +10,25 @@ module Monomer
         @num_messages = 0
       end
       
+      def led_on(x, y, thread)
+        @lights.turn_on(x, y, thread)
+      end
+      
+      def led_off(x, y, thread)
+        @lights.turn_off(x, y, thread)
+      end
+      
+      def toggle_led(x, y, thread)
+        @lights.toggle(x, y, thread)
+      end
+      
       def notify(message)
         message = Message.new(@num_messages, message[:message], message[:time], message[:x], message[:y])
         case message.message
         when :led_off
-          @lights.turn_off(message.x, message.y)
+          #@lights.turn_off(message.x, message.y)
         when :led_on
-          @lights.turn_on(message.x, message.y)
+         # @lights.turn_on(message.x, message.y)
         when :clear
           @lights.clear
         when :all

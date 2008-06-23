@@ -2,28 +2,37 @@ module Monomer
   module Core
     class Lights
       def initialize(max_x, max_y)
-        @leds = Hash.new(false)
+        @leds = {}
       end
       
-      def turn_on(x,y)
-        @leds[[x, y]] = true
+      def turn_on(x, y, thread)
+        led(x,y).turn_on(thread)
       end
       
-      def turn_off(x,y)
-        @leds[[x, y]] = false
+      def turn_off(x, y, thread)
+        led(x,y).turn_off(thread)
+      end
+      
+      def toggle(x, y, thread)
+        led(x,y).toggle(thread)
       end
       
       def clear
-        @leds = Hash.new(false)
+        @leds = {}
       end
       
       def all
-        @leds = Hash.new(true)
+        @leds = {}
       end
       
       def status(x,y)
         @leds[[x,y]]
       end
+      
+      def led(x, y)
+        @leds[[x,y]] ||= LED.new
+      end
+      
     end
   end
 end

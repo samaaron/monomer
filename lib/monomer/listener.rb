@@ -5,19 +5,16 @@ module Monomer
     end
     
     def self.loop_on_key_sustain(&block)
-      meta_def :loop_on_key_sustain do
-        block
-      end
-      
-      define_method :key_sustain_on do |x,y|
+      meta_def :key_sustain_on do |x,y|
         @key_threads[[x,y]] = Thread.new do
+          change_to_s_of_this_thread_to_map_to_calling_class
           loop do
-            self.class.loop_on_key_sustain.call(x,y)
+            block.call(x,y)
           end
         end
       end
       
-      define_method :key_sustain_off do |x,y|
+      meta_def :key_sustain_off do |x,y|
         if thread = @key_threads[[x,y]]
           thread.kill
           @key_threads[[x,y]] = nil
@@ -27,54 +24,50 @@ module Monomer
     
     def self.before_start(&block)
       meta_def :before_start do
-        block
-      end
-      
-      define_method :before_start do
-        self.class.before_start.call
+        block.call
       end
     end
     
     def self.on_start(&block)
-      meta_def :on_start do
-        block
-      end
-            
-      define_method :start do
+      meta_def :start do
         thread = Thread.new do
-          self.class.on_start.call
+          change_to_s_of_this_thread_to_map_to_calling_class
+          block.call
         end
       end
     end
     
     def self.on_key_down(&block)
-      meta_def :on_key_down do
-        block
-      end
-
-      define_method :button_pressed do |x,y|
+      meta_def :button_pressed do |x,y|
         Thread.new do
-          self.class.on_key_down.call(x,y)
+          change_to_s_of_this_thread_to_map_to_calling_class
+          block.call(x,y)
         end
       end
-      
     end
     
     def self.on_key_up(&block)
-      meta_def :on_key_up do
-        block
-      end
-      
-      define_method :button_released do |x,y|
+      meta_def :button_released do |x,y|
         Thread.new do
-          self.class.on_key_up.call(x,y)
+          change_to_s_of_this_thread_to_map_to_calling_class
+          block.call(x,y)
         end
       end
     end
     
-    
-    def initialize
+    def self.init
       @key_threads = {}
+      self 
+    end
+    
+    def self.change_to_s_of_this_thread_to_map_to_calling_class
+      current_thread = Thread.current
+      method_def = <<-END
+        def current_thread.to_s
+          "Thread for #{self}"
+        end
+      END
+      eval method_def
     end
     
   end

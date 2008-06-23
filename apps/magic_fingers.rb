@@ -5,7 +5,6 @@ require File.dirname(__FILE__) + '/../lib/monomer'
 class MagicFingers < Monomer::Listener
   
   on_key_down do |x,y|
-    puts "self: #{self}"
     draw_toggle_square(x,y,1)
   end
   

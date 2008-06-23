@@ -22,12 +22,10 @@ module Monomer
       
       def led_on(x,y)
         send_led(x,y,1)
-        @state.notify(:message => :led_on, :time => Time.now, :x => x, :y => y)
       end
       
       def led_off(x,y)
         send_led(x,y,0)
-        @state.notify(:message => :led_off, :time => Time.now, :x => x, :y => y)
       end
       
       def clear
