@@ -1,4 +1,4 @@
-#!/usr/bin/env jruby -wKU
+#!/usr/bin/env jruby -wKUd
 
 #monomer version of Stretta's press cafe: http://stretta.blogspot.com/2007/11/press-cafe.html
 
@@ -8,39 +8,61 @@ class PressCoffee < Monomer::Listener
   
   before_start do
     @midi = Monomer::MidiOut.new
-    @patterns = [
-                 [0,0,0,0,0,0,0,1],
-                 [0,0,1,0,0,1,0,0],
-                 [1,1,0,0,1,1,0,0],
-                 [1,1,1,0,0,0,1,1],
-                 [0,0,0,1,1,1,0,0],
-                 [1,0,0,1,1,1,0,1],
-                 [0,1,0,1,1,1,0,0],
-                 [1,1,1,1,1,1,1,1],
-                ]
+    @available_patterns = [
+                           [0,0,0,0,0,0,0,1],
+                           [0,0,1,0,0,1,0,0],
+                           [1,1,0,0,1,1,0,0],
+                           [1,1,1,0,0,0,1,1],
+                           [0,0,0,1,1,1,0,0],
+                           [1,0,0,1,1,1,0,1],
+                           [0,1,0,1,1,1,0,0],
+                           [1,1,1,1,1,1,1,1],
+                          ]
+                
+    @current_patterns = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,]
+    @step_offsets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    @current_offset = 0
+    @sleep = 0.14
   end
   
-  loop_on_key_sustain do |x,y|
-    pattern = @patterns[y].clone
+  on_start do
     loop do
-      monome.light_column(x, *pattern)
-      element = pattern.shift
-      pattern.push element
-      if pattern[0] == 1
-        @midi.on(40 + x)
-        sleep 0.15
-        @midi.off(40 + x)
-      else
-        sleep 0.15
+      sleep @sleep
+      patterns_to_play = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+      @current_patterns.each_with_index do |pattern, index|
+        if pattern != -1
+          offset = @current_offset + @step_offsets[index]
+          current_pattern = @available_patterns[pattern].clone
+          (offset % 8).times do
+            note = current_pattern.shift
+            current_pattern.push(note)
+          end
+          patterns_to_play[index] = current_pattern
+        else
+          monome.clear_column(index)
+        end
       end
-      
+      patterns_to_play.each_with_index do |pattern, index|
+        @midi.off(40 + index)
+        
+        if pattern
+          monome.light_column(index, *pattern)
+          @midi.on(40 + index) if pattern[0] == 1
+        end
+        
+      end
+      @current_offset += 1
     end
   end
   
-  on_key_up do |x,y|
-    monome.clear_column(x)
+  on_key_down do |x,y|
+    @current_patterns[x] = y
+    @step_offsets[x] = -@current_offset
   end
   
+  on_key_up do |x,y|
+    @current_patterns[x] = -1
+  end
   
 end
 
