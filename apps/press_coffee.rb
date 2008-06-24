@@ -47,7 +47,7 @@ class PressCoffee < Monomer::Listener
         
         if pattern
           monome.light_column(index, *pattern)
-          @midi.on(40 + index) if pattern[0] == 1
+          @midi.on(40 + index) if pattern[monome.max_y] == 1
         end
         
       end
