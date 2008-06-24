@@ -19,8 +19,8 @@ class PressCoffee < Monomer::Listener
                            [1,1,1,1,1,1,1,1],
                           ]
                 
-    @current_patterns = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,]
-    @step_offsets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    @current_patterns = (0..monome.max_x).inject([]){|array, _| array << -1}
+    @step_offsets = (0..monome.max_x).inject([]){|array, _| array << 0}
     @current_offset = 0
     @sleep = 0.14
   end
@@ -28,12 +28,12 @@ class PressCoffee < Monomer::Listener
   on_start do
     loop do
       sleep @sleep
-      patterns_to_play = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+      patterns_to_play = (0..monome.max_x).inject([]){|array, _| array << nil}
       @current_patterns.each_with_index do |pattern, index|
         if pattern != -1
-          offset = @current_offset + @step_offsets[index]
+          offset =  @step_offsets[index] - @current_offset
           current_pattern = @available_patterns[pattern].clone
-          (offset % 8).times do
+          (offset % (monome.max_y + 1)).times do
             note = current_pattern.shift
             current_pattern.push(note)
           end
@@ -57,7 +57,7 @@ class PressCoffee < Monomer::Listener
   
   on_key_down do |x,y|
     @current_patterns[x] = y
-    @step_offsets[x] = -@current_offset
+    @step_offsets[x] = @current_offset
   end
   
   on_key_up do |x,y|
