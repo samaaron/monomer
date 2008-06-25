@@ -1,6 +1,42 @@
 #!/usr/bin/env jruby -wKUd
 
-#monomer version of Stretta's press cafe: http://stretta.blogspot.com/2007/11/press-cafe.html
+#need to make sure that the statarray lib is available, and also edit the listener to support num_iterations for timely_repeat
+
+#results:
+
+# with sleep
+# {:sum=>156.65100000000018,
+#  :mean=>0.15665100000000018,
+#  :stddev=>0.00917842265546986,
+#  :min=>0.145,
+#  :max=>0.334,
+#  :median=>0.155,
+#  :count=>1000}
+# timely block with just update patterns
+# {:sum=>166.29400000000027,
+#  :mean=>0.16629400000000027,
+#  :stddev=>0.025912565002813286,
+#  :min=>0.14200000000000002,
+#  :max=>0.406,
+#  :median=>0.158,
+#  :count=>1000}
+# all in one timely block
+# {:sum=>141.85500000000025,
+#  :mean=>0.14185500000000026,
+#  :stddev=>0.029510283492908546,
+#  :min=>0.02,
+#  :max=>0.312,
+#  :median=>0.14100000000000001,
+#  :count=>1000}
+# timely repeat
+# {:sum=>144.28400000000033,
+#  :mean=>0.14428400000000033,
+#  :stddev=>0.007895675125388952,
+#  :min=>0.124,
+#  :max=>0.246,
+#  :median=>0.14300000000000002,
+#  :count=>1000}
+
 require 'pp'
 require '/Library/Ruby/Gems/1.8/gems/statarray-0.0.1/lib/statarray'
 require File.dirname(__FILE__) + '/../lib/monomer'

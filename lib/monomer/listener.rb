@@ -4,13 +4,13 @@ module Monomer
       Monome.monome
     end
     
-    def self.timely_repeat(repeat_time, num_times, &block)
+    def self.timely_repeat(repeat_time, &block)
       t = Time.now
       sleep_ratio = 0.9
       num_warm_up_iterations = 6 #necessary for JRuby JIT optimisations to kick in
       num_iterations = 0
       warmed_up = false
-      num_times.times do
+      loop do
         num_iterations += 1 unless warmed_up
         warmed_up = true if num_iterations >= num_warm_up_iterations
         not_managing_to_keep_up = Time.now - t > repeat_time
