@@ -11,6 +11,9 @@ configure do
             
   M = Monomer::Monome.new
 
+  def ascii_status
+    M.ascii_status("<br>")
+  end
 end
 
 get '/on' do
@@ -45,7 +48,5 @@ get '/off' do
  "all lights off! Try on/1/2 to turn on a particular light and /on to turn them all on again:<br/><code> #{ascii_status} </code>"
 end
 
-def ascii_status
-  M.ascii_status("<br>")
-end
+
 
