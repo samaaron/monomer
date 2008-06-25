@@ -87,7 +87,8 @@ module Monomer
     end
     
     def clear_column(col)
-      light_column(col, 0,0,0,0,0,0,0,0)
+      col__light_pattern = (0..max_y).map{|y|led_off(col,y)}.map{|need_to_turn_off| need_to_turn_off ? 0 : 1}
+      light_column(col, *col__light_pattern)
     end
     
     def light_column(col, *pattern)
