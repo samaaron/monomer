@@ -19,39 +19,18 @@ class PressCoffee < Monomer::Listener
                            [1,1,1,1,1,1,1,1],
                           ]
                 
-    @current_patterns = (0..monome.max_x).inject([]){|array, _| array << -1}
-    @step_offsets = (0..monome.max_x).inject([]){|array, _| array << 0}
+    @current_patterns = [-1] * monome.row_size
+    @step_offsets = [0] * monome.row_size
     @current_offset = 0
     @sleep = 0.14
+    @patterns_to_play = []
   end
   
-  on_start do
-    timely_repeat(@sleep) do
-      patterns_to_play = (0..monome.max_x).inject([]){|array, _| array << nil}
-      @current_patterns.each_with_index do |pattern, index|
-        if pattern != -1
-          offset =  @step_offsets[index] - @current_offset
-          current_pattern = @available_patterns[pattern].clone
-          (offset % (monome.max_y + 1)).times do
-            note = current_pattern.shift
-            current_pattern.push(note)
-          end
-          patterns_to_play[index] = current_pattern
-        else
-          monome.clear_column(index)
-        end
-      end
-      patterns_to_play.each_with_index do |pattern, index|
-        @midi.off(40 + index)
-        
-        if pattern
-          monome.light_column(index, *pattern)
-          @midi.on(40 + index) if pattern[monome.max_y] == 1
-        end
-        
-      end
-      @current_offset += 1
+  loop_on_start do
+    timely_block(0.14) do
+      update_patterns
     end
+    send_midi_and_light_monome
   end
   
   on_key_down do |x,y|
@@ -63,28 +42,36 @@ class PressCoffee < Monomer::Listener
     @current_patterns[x] = -1
   end
   
-  def self.timely_repeat(repeat_time, &block)
-    t = Time.now
-    sleep_ratio = 0.9
-    num_warm_up_iterations = 6 #necessary for JRuby JIT optimisations to kick in
-    num_iterations = 0
-    warmed_up = false
-    loop do
-      num_iterations += 1 unless warmed_up
-      warmed_up = true if num_iterations >= num_warm_up_iterations
-      not_managing_to_keep_up = Time.now - t > repeat_time
-      if not_managing_to_keep_up && warmed_up
-        puts "not managing to keep up..."
-        sleep_ratio *= 0.75
+  def self.update_patterns
+    @patterns_to_play = [nil] * monome.row_size
+    @current_patterns.each_with_index do |pattern, index|
+      if pattern != -1
+        offset =  @step_offsets[index] - @current_offset
+        current_pattern = @available_patterns[pattern].clone
+        (offset % (monome.max_y + 1)).times do
+          note = current_pattern.shift
+          current_pattern.push(note)
+        end
+        @patterns_to_play[index] = current_pattern
+      else
+        monome.clear_column(index)
       end
-      sleep repeat_time * sleep_ratio unless not_managing_to_keep_up || !warmed_up
-      while Time.now - t < repeat_time
-      end
-      t = Time.now
-      block.call
     end
+    
+    @current_offset += 1
   end
   
+  def self.send_midi_and_light_monome
+    @patterns_to_play.each_with_index do |pattern, index|
+      @midi.off(40 + index)
+      
+      if pattern
+        monome.light_column(index, *pattern)
+        @midi.on(40 + index) if pattern[monome.max_y] == 1
+      end
+      
+    end
+  end
 end
 
 Monomer::Monome.create.with_listeners(PressCoffee).start  if $0 == __FILE__

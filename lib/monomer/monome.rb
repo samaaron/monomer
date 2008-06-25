@@ -22,6 +22,7 @@ module Monomer
       @button_pressed_listeners = []
       @button_released_listeners = []
       @on_start_listeners = []
+      @loop_on_start_listeners = []
       @key_sustain_listeners = []
       @before_start_listeners = []
       clear
@@ -106,6 +107,7 @@ module Monomer
       @before_start_listeners.each {|listener| listener.before_start}
       @communicator.start do
         @on_start_listeners.each {|listener| listener.start}
+        @loop_on_start_listeners.each {|listener| listener.loop_on_start}
       end      
     end
     
@@ -130,6 +132,7 @@ module Monomer
         @button_released_listeners  << listener if listener.respond_to? :button_released
         @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
         @on_start_listeners         << listener if listener.respond_to? :start
+        @loop_on_start_listeners    << listener if listener.respond_to? :loop_on_start
         @key_sustain_listeners      << listener if listener.respond_to? :key_sustain_on
         @before_start_listeners     << listener if listener.respond_to? :before_start
       end
