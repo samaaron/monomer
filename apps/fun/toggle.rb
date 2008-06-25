@@ -2,7 +2,7 @@
 
 #introduction of a nicer api, natively supporting threads (without you needing to know about it)
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Toggle < Monomer::Listener
   

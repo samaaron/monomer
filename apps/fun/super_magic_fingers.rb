@@ -3,7 +3,7 @@
 #this app demonstrates the ability to respond to sustained key presses.
 #Press and hold a bunch of keys: madness!
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class SuperMagicFingers < Monomer::Listener
   before_start do

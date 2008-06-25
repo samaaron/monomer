@@ -2,7 +2,7 @@
 
 #Choose a random key and flash it. Repeat lots of times.
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Random < Monomer::Listener
   on_start do

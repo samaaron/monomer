@@ -1,5 +1,5 @@
 #!/usr/bin/env jruby -wKU
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 #press a corner 4 times to either clear or fill the monome with light
 

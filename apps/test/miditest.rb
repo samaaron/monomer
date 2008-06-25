@@ -1,6 +1,6 @@
 #!/usr/bin/env jruby -wKU
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Miditest < Monomer::Listener
   before_start do

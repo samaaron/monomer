@@ -2,7 +2,7 @@
 
 #flashes the entire monome repeatedly ad nauseam...
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Flasher < Monomer::Listener
   

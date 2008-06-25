@@ -39,7 +39,7 @@
 
 require 'pp'
 require '/Library/Ruby/Gems/1.8/gems/statarray-0.0.1/lib/statarray'
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class PressCoffee < Monomer::Listener
   

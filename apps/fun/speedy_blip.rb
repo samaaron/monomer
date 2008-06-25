@@ -2,7 +2,7 @@
 
 #whizz one led through all the keys really, really fast
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class SpeedyBlip < Monomer::Listener
   on_start do

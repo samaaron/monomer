@@ -1,6 +1,6 @@
 #!/usr/bin/env jruby -wKU
 
-require File.dirname(__FILE__) + '/../lib/monomer'
+require File.dirname(__FILE__) + '/../../lib/monomer'
 
 # a listener that listens for four rectangle corner presses (in any order) and the final corner being tapped twice. A
 # filled rectangle is then displayed
