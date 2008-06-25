@@ -40,6 +40,14 @@ module Monomer
       @state.max_x
     end
     
+    def col_size
+      @state.max_y + 1
+    end
+    
+    def row_size
+      @state.max_x + 1
+    end
+    
     def ascii_status(join_string="\n")
       @state.ascii_status(join_string)
     end
