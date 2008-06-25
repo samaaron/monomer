@@ -25,13 +25,104 @@ class PressCoffee < Monomer::Listener
     @current_offset = 0
     @sleep = 0.14
     @patterns_to_play = []
+    @time = Time.now
+    @times_a = [].to_statarray
+    @times_b = [].to_statarray
+    @times_c = [].to_statarray
+    @times_d = [].to_statarray
   end
   
   on_start do
-    timely_repeat(0.14) do
+    monome.spawn do
+      loop do
+        x = monome.rand_x
+        y = monome.rand_y
+        @current_patterns[x] = y
+        @step_offsets[x] = @current_offset
+      end
+    end
+    
+    monome.spawn do
+      loop do
+        x = monome.rand_x
+        @current_patterns[x] = -1
+      end
+    end
+    
+    @time = Time.now
+    20.times do
+      sleep 0.14
       update_patterns
       send_midi_and_light_monome
     end
+    
+    @time = Time.now
+    1000.times do
+      sleep(0.14)
+        update_patterns
+      send_midi_and_light_monome
+      diff = Time.now - @time
+      #puts diff
+      @times_a << diff
+      @time = Time.now
+    end
+    
+    @time = Time.now
+    1000.times do
+      timely_block(0.14) do
+        update_patterns
+      end
+      send_midi_and_light_monome
+      diff = Time.now - @time
+      #puts diff
+      @times_b << diff
+      @time = Time.now
+    end
+    
+    @time = Time.now
+    1000.times do
+      timely_block(0.14) do
+        update_patterns
+        send_midi_and_light_monome
+        diff = Time.now - @time
+        #puts diff
+        @times_c << diff
+        @time = Time.now
+      end
+    end
+    
+    @time = Time.now
+    timely_repeat(0.14, 1000) do
+      update_patterns
+      send_midi_and_light_monome
+      diff = Time.now - @time
+      #puts diff
+      @times_d << diff
+      @time = Time.now
+    end
+    
+    
+puts "with sleep"
+    pp @times_a
+    puts "timely block with just update patterns"
+    
+     pp @times_b
+     puts "all in one timely block"
+     
+     pp @times_c
+     puts "timely repeat"
+     
+     pp @times_d
+    
+  puts "with sleep"
+  pp @times_a.to_stats
+  puts "timely block with just update patterns"
+  pp @times_b.to_stats
+  puts "all in one timely block"
+  pp @times_c.to_stats
+  puts "timely repeat"
+  pp @times_d.to_stats
+ 
   end
   
   on_key_down do |x,y|

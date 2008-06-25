@@ -49,6 +49,19 @@ module Monomer
       @state.max_x + 1
     end
     
+    def rand_x
+      rand(@state.max_x + 1)
+    end
+    
+    def rand_y
+      rand(@state.max_y + 1)
+    end
+    
+    alias :rand_col_button :rand_y 
+    alias :rand_row_button :rand_x 
+    alias :rand_col_led    :rand_y 
+    alias :rand_row_led    :rand_x 
+    
     def ascii_status(join_string="\n")
       @state.ascii_status(join_string)
     end
