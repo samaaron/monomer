@@ -21,7 +21,6 @@ class PressCoffee < Monomer::Listener
     @current_patterns = [-1] * monome.row_size
     @step_offsets = [0] * monome.row_size
     @current_offset = 0
-    @sleep = 0.14
     @patterns_to_play = []
   end
   
