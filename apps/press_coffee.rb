@@ -26,8 +26,7 @@ class PressCoffee < Monomer::Listener
   end
   
   on_start do
-    loop do
-      sleep @sleep
+    timely_repeat(@sleep) do
       patterns_to_play = (0..monome.max_x).inject([]){|array, _| array << nil}
       @current_patterns.each_with_index do |pattern, index|
         if pattern != -1
@@ -62,6 +61,17 @@ class PressCoffee < Monomer::Listener
   
   on_key_up do |x,y|
     @current_patterns[x] = -1
+  end
+  
+  def self.timely_repeat(repeat_time, &block)
+    t = Time.now
+    loop do
+      puts "not managing to keep up..." if Time.now - t > repeat_time
+      while Time.now - t < repeat_time
+      end
+      t = Time.now
+      block.call
+    end
   end
   
 end
