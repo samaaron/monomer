@@ -25,10 +25,7 @@ class PressCoffee < Monomer::Listener
   end
   
   on_start do
-    timely_repeat(0.14) do
-      update_patterns
-      send_midi_and_light_monome
-    end
+    timely_repeat :period => 0.14, :pre_tick => L{update_patterns}, :on_tick => L{send_midi_and_light_monome}
   end
   
   on_key_down do |x,y|
@@ -61,11 +58,10 @@ class PressCoffee < Monomer::Listener
   
   def self.send_midi_and_light_monome
     @patterns_to_play.each_with_index do |pattern, index|
-      @midi.off(40 + index)
       
       if pattern
         monome.light_column(index, *pattern)
-        @midi.on(40 + index) if pattern[monome.max_y] == 1
+        @midi.play(0.5, 40 + index) if pattern[monome.max_y] == 1
       end
       
     end

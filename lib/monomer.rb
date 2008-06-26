@@ -1,16 +1,17 @@
 $:.unshift File.dirname(__FILE__) # For use/testing when no gem is installed
 
-#require monomer
-require 'monomer/monome'
-require 'monomer/listener'
-require 'monomer/midi_out'
-
 #require core
+require 'monomer/core/timer'
+require 'monomer/core/led'
+require 'monomer/core/lights'
+require 'monomer/core/message'
 require 'monomer/core/communicator'
 require 'monomer/core/state'
-require 'monomer/core/message'
-require 'monomer/core/lights'
-require 'monomer/core/led'
+
+#require monomer
+require 'monomer/midi_out'
+require 'monomer/monome'
+require 'monomer/listener'
 
 #require osc
 require 'osc/osc'
@@ -23,4 +24,8 @@ end
 
 #require crazy shit
 require '_why/metaid'
+
+#handy shortcut
+alias :L :lambda
+
 

@@ -1,9 +1,8 @@
-#!/usr/bin/env jruby -wKU
+#!/usr/bin/env jruby -wKUd
 
 #monomer version of pixelmechanic's boiingg: http://docs.monome.org/doku.php?id=app:boiingg
 
 require File.dirname(__FILE__) + '/../../lib/monomer'
-
 class Rebound < Monomer::Listener
   
   before_start do
@@ -14,10 +13,7 @@ class Rebound < Monomer::Listener
   end
   
   on_start do
-    timely_repeat(0.14) do
-      update_patterns
-      send_midi_and_light_monome
-    end
+    timely_repeat :period => 0.14, :pre_tick => L{update_patterns}, :on_tick => L{send_midi_and_light_monome}
   end
   
   on_key_down do |x,y|
@@ -40,7 +36,7 @@ class Rebound < Monomer::Listener
       monome.clear_column(index)
       if @range[index] != 0
         monome.led_on(index, position) 
-        @midi.on(40 + index) if position == 0
+        @midi.play(0.5, 40 + index) if position == 0
       end
     end
   end

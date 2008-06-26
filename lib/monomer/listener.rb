@@ -4,37 +4,7 @@ module Monomer
       Monome.monome
     end
     
-    def self.timely_repeat(repeat_time, &block)
-      t = Time.now
-      sleep_ratio = 0.9
-      num_warm_up_iterations = 6 #necessary for JRuby JIT optimisations to kick in
-      num_iterations = 0
-      warmed_up = false
-      loop do
-        num_iterations += 1 unless warmed_up
-        warmed_up = true if num_iterations >= num_warm_up_iterations
-        not_managing_to_keep_up = Time.now - t > repeat_time
-        if not_managing_to_keep_up && warmed_up
-          puts "not managing to keep up..."
-          sleep_ratio *= 0.75
-        end
-        sleep repeat_time * sleep_ratio unless not_managing_to_keep_up || !warmed_up
-        while Time.now - t < repeat_time
-        end
-        t = Time.now
-        block.call
-      end
-    end
-    
-    def self.timely_block(repeat_time, &block)
-      t = Time.now
-      block.call
-      if Time.now - t > repeat_time
-        puts "not managing to keep up..."
-      end
-      while Time.now - t < repeat_time
-      end
-    end
+    extend Core::Timer
     
     def self.loop_on_key_sustain(&block)
       meta_def :key_sustain_on do |x,y|

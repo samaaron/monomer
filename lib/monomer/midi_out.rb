@@ -16,8 +16,12 @@ module Monomer
       @midi_out.send(Midi::MessageOff.new(velocity, note  ))
     end
     
-    def yo(m)
-      @midi_out.send m
+    def play(duration, note, velocity=1)
+      Thread.new do
+        on(note, velocity)
+        sleep duration
+        off(note, velocity)
+      end
     end
   end
 end

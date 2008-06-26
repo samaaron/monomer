@@ -5,19 +5,16 @@
 require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Random < Monomer::Listener
-  on_start do
-    puts 'hi'
-    10_000_000.times do
-      flash_random_led
-    end
+  
+  loop_on_start do
+    flash_random_led
   end
   
   def self.flash_random_led
-    x = rand(monome.max_x + 1)
-    y = rand(monome.max_y + 1)
-    puts 'hey'
+    x = monome.rand_x
+    y = monome.rand_y
     monome.led_on(x,y)
-    sleep 0.001
+    sleep 0.01
     monome.led_off(x,y)
   end
 end

@@ -66,6 +66,7 @@ class PressCoffee < Monomer::Listener
     @times_b = [].to_statarray
     @times_c = [].to_statarray
     @times_d = [].to_statarray
+    @times_e = [].to_statarray
   end
   
   on_start do
@@ -93,7 +94,7 @@ class PressCoffee < Monomer::Listener
     end
     
     @time = Time.now
-    1000.times do
+    2000.times do
       sleep(0.14)
         update_patterns
       send_midi_and_light_monome
@@ -104,8 +105,8 @@ class PressCoffee < Monomer::Listener
     end
     
     @time = Time.now
-    1000.times do
-      timely_block(0.14) do
+    2000.times do
+      Monomer::Timer.timely_block(0.14) do
         update_patterns
       end
       send_midi_and_light_monome
@@ -116,8 +117,8 @@ class PressCoffee < Monomer::Listener
     end
     
     @time = Time.now
-    1000.times do
-      timely_block(0.14) do
+    2000.times do
+      Monomer::Timer.timely_block(0.14) do
         update_patterns
         send_midi_and_light_monome
         diff = Time.now - @time
@@ -128,7 +129,7 @@ class PressCoffee < Monomer::Listener
     end
     
     @time = Time.now
-    timely_repeat(0.14, 1000) do
+    Monomer::Timer.timely_repeat(:repeat_time => 0.14, :num_iterations => 2000) do
       update_patterns
       send_midi_and_light_monome
       diff = Time.now - @time
@@ -137,19 +138,19 @@ class PressCoffee < Monomer::Listener
       @time = Time.now
     end
     
+    @time = Time.now
+    Monomer::Timer.timely_repeat(:repeat_time => 0.14, :num_iterations => 2000,
+    :before_tick => lambda {update_patterns},
+    :on_tick     => lambda do
+      send_midi_and_light_monome
+      diff = Time.now - @time
+      #puts diff
+      @times_e << diff
+      @time = Time.now
+    end)
+    
     
 puts "with sleep"
-    pp @times_a
-    puts "timely block with just update patterns"
-    
-     pp @times_b
-     puts "all in one timely block"
-     
-     pp @times_c
-     puts "timely repeat"
-     
-     pp @times_d
-    
   puts "with sleep"
   pp @times_a.to_stats
   puts "timely block with just update patterns"
@@ -158,6 +159,8 @@ puts "with sleep"
   pp @times_c.to_stats
   puts "timely repeat"
   pp @times_d.to_stats
+  puts "timely repeat with before and on tick"
+  pp @times_e.to_stats
  
   end
   
