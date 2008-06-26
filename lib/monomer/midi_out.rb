@@ -25,17 +25,3 @@ module Monomer
     end
   end
 end
-
-# class M
-# def initialize
-# s = Midi::System.new
-# mOut = s.outputs[0]
-# mOut.open
-# @m = mOut
-# end
-# def on
-# m = Midi::MessageOn.new 1,8
-# @m.send m
-# end
-# end
-# 
