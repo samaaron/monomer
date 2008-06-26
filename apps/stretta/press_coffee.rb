@@ -21,11 +21,10 @@ class PressCoffee < Monomer::Listener
     @current_patterns = [-1] * monome.row_size
     @step_offsets = [0] * monome.row_size
     @current_offset = 0
-    @patterns_to_play = []
   end
   
   on_start do
-    timely_repeat :period => 0.14, :pre_tick => L{update_patterns}, :on_tick => L{send_midi_and_light_monome}
+    timely_repeat :bpm => 120, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.flush!}
   end
   
   on_key_down do |x,y|
@@ -37,8 +36,8 @@ class PressCoffee < Monomer::Listener
     @current_patterns[x] = -1
   end
   
-  def self.update_patterns
-    @patterns_to_play = [nil] * monome.row_size
+  def self.update_patterns_and_lights
+    patterns_to_play = [nil] * monome.row_size
     @current_patterns.each_with_index do |pattern, index|
       if pattern != -1
         offset =  @step_offsets[index] - @current_offset
@@ -47,25 +46,23 @@ class PressCoffee < Monomer::Listener
           note = current_pattern.shift
           current_pattern.push(note)
         end
-        @patterns_to_play[index] = current_pattern
+        patterns_to_play[index] = current_pattern
       else
         monome.clear_column(index)
       end
     end
     
     @current_offset += 1
-  end
-  
-  def self.send_midi_and_light_monome
-    @patterns_to_play.each_with_index do |pattern, index|
+    patterns_to_play.each_with_index do |pattern, index|
       
       if pattern
         monome.light_column(index, *pattern)
-        @midi.play(0.5, 40 + index) if pattern[monome.max_y] == 1
+        @midi.prepare_note(:duration => 0.5, :note => 40 + index) if pattern[monome.max_y] == 1
       end
       
     end
   end
+  
 end
 
 Monomer::Monome.create.with_listeners(PressCoffee).start  if $0 == __FILE__

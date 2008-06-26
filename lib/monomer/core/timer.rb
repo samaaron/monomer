@@ -2,10 +2,11 @@ module Monomer
   module Core
     module Timer
       def timely_repeat(opts = {})
-        period         = opts[:period]
-        pre_tick       = opts[:pre_tick]
+        bpm            = opts[:bpm]
+        prepare        = opts[:prepare]
         on_tick        = opts[:on_tick]
         num_iterations = opts[:num_iterations]
+        period = 60 / bpm.to_f / 4
         
         start_time = Time.now.to_f
         sleep_ratio = 0.8
@@ -25,7 +26,7 @@ module Monomer
             puts message
           end
           
-          pre_tick.call if pre_tick
+          prepare.call if prepare
           
           sleep period * sleep_ratio unless not_managing_to_keep_up || !warmed_up
           while Time.now.to_f - (start_time + num_iterations_completed * period) < period
@@ -41,7 +42,8 @@ module Monomer
         end
       end
       
-      def timely_block(period, &block)
+      def timely_block(bpm, &block)
+        period = 60 / bpm.to_f / 4
         start_time = Time.now
         block.call
         if Time.now - start_time > period

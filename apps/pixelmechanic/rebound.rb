@@ -13,7 +13,7 @@ class Rebound < Monomer::Listener
   end
   
   on_start do
-    timely_repeat :period => 0.14, :pre_tick => L{update_patterns}, :on_tick => L{send_midi_and_light_monome}
+    timely_repeat :bpm => 120, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.flush!}
   end
   
   on_key_down do |x,y|
@@ -22,21 +22,20 @@ class Rebound < Monomer::Listener
     @position[x] = y
   end
   
-  def self.update_patterns
+  def self.update_patterns_and_lights
     @range.each_with_index do |range, index|
       if range != 0
         @position[index] += @direction[index]
         @direction[index] *= -1 if @position[index] == 0 || @position[index] == range
       end
     end
-  end
-  
-  def self.send_midi_and_light_monome
+    
+    notes_to_play = []
     @position.each_with_index do |position, index|
       monome.clear_column(index)
       if @range[index] != 0
-        monome.led_on(index, position) 
-        @midi.play(0.5, 40 + index) if position == 0
+        monome.led_on(index, position)
+        @midi.prepare_note(:duration => 0.5, :note => 40 + index) if position == 0
       end
     end
   end
