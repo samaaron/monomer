@@ -66,7 +66,7 @@ module Midi
     end
   end
  
-  class MessageProgrammChange < Message
+  class MessageProgramChange < Message
     def initialize(channel, programm)
       raise 'illegal channel' unless (1..16).include? channel
       raise 'illegal programm' unless (0..127).include? programm
@@ -147,12 +147,17 @@ module Midi
   end
   
   class MidiOut
+    
     def open
       int_open
     end
     
     def close
       int_close
+    end
+    
+    def send_bytes(bytes)
+      @out.sendMidi(bytes)
     end
     
     def send(mesg)

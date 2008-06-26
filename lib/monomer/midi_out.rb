@@ -28,11 +28,11 @@ module Monomer
     end
     
     def prepare_on(note, velocity=64)
-      @prepared_on_messages << Midi::MessageOn.new(1, note, velocity)
+      @prepared_on_messages << Midi::MessageOn.new(1, note, velocity).to_bytes.to_java(:byte)
     end
     
     def prepare_off(note, velocity=64)
-      @prepared_off_messages << Midi::MessageOff.new(1, note, velocity)
+      @prepared_off_messages << Midi::MessageOff.new(1, note, velocity).to_bytes.to_java(:byte)
     end
     
     def prepare_note(opts={})
@@ -45,7 +45,7 @@ module Monomer
     end
     
     def flush!
-      @prepared_on_messages.each{|note| @midi_out.send(note)} 
+      @prepared_on_messages.each{|note| @midi_out.send_bytes(note)} 
       @prepared_on_messages = []
       
       if @prepared_off_messages != []
@@ -57,7 +57,7 @@ module Monomer
       
       if @prepared_off_messages != []
         Thread.new do
-          @prepared_off_messages.each{|silence| @midi_out.send(silence)}
+          @prepared_off_messages.each{|silence| @midi_out.send_bytes(silence)}
           @prepared_off_messages = []
         end 
       end
