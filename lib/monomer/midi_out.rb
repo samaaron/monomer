@@ -17,8 +17,8 @@ module Monomer
     end
     
     def play(duration, note, velocity=1)
+      on(note, velocity)
       Thread.new do
-        on(note, velocity)
         sleep duration
         off(note, velocity)
       end
