@@ -9,9 +9,9 @@ class PressCoffee < Monomer::Listener
     @midi = Monomer::MidiOut.new
     @available_patterns = [
                            [0,0,0,0,0,0,0,1],
-                           [0,0,1,0,0,1,0,0],
-                           [1,1,0,0,1,1,0,0],
-                           [1,1,1,0,0,0,1,1],
+                           [0,1,0,1,0,1,0,1],
+                           [0,0,1,1,0,0,1,1],
+                           [0,0,0,0,1,1,1,1],
                            [0,0,0,1,1,1,0,0],
                            [1,0,0,1,1,1,0,1],
                            [0,1,0,1,1,1,0,0],
@@ -24,7 +24,7 @@ class PressCoffee < Monomer::Listener
   end
   
   on_start do
-    timely_repeat :bpm => 120, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.flush!}
+    timely_repeat :bpm => 140, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.flush!}
   end
   
   on_key_down do |x,y|
