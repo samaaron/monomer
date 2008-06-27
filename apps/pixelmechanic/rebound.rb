@@ -7,37 +7,65 @@ class Rebound < Monomer::Listener
   
   before_start do
     @midi = Monomer::MidiOut.new
-    @position  = [0] * monome.row_size
-    @direction = [0] * monome.row_size
-    @range     = [0] * monome.row_size
+    @position  = [0] * monome.num_cols
+    @direction = [0] * monome.num_cols
+    @range     = [0] * monome.num_cols
+    @current_column = 0
   end
   
   on_start do
-    timely_repeat :bpm => 120, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.flush!}
+    timely_repeat :bpm => 120, :prepare => L{bounce_lights_and_prepare_notes}, :on_tick => L{@midi.flush!}
   end
   
   on_key_down do |x,y|
-    @range[x]    = y
-    @direction[x]= -1 
-    @position[x] = y
+    @range[x]     = y
+    @position[x]  = y
+    @direction[x] = 1 
   end
   
-  def self.update_patterns_and_lights
-    @range.each_with_index do |range, index|
-      if range != 0
-        @position[index] += @direction[index]
-        @direction[index] *= -1 if @position[index] == 0 || @position[index] == range
+  def self.bounce_lights_and_prepare_notes
+    monome.column_indices.each do |col_index|
+      @current_column = col_index
+      when_bouncing do
+        update_position
+        turn_on_led_for_current_position
+        turn_off_led_for_previous_position
+        prepare_note if reached_bottom?
       end
     end
-    
-    notes_to_play = []
-    @position.each_with_index do |position, index|
-      monome.clear_column(index)
-      if @range[index] != 0
-        monome.led_on(index, position)
-        @midi.prepare_note(:duration => 0.5, :note => 40 + index) if position == 0
-      end
-    end
+  end
+  
+  def self.prepare_note
+    @midi.prepare_note(:duration => 0.5, :note => 40 + @position[@current_column])
+  end
+  
+  def self.when_bouncing
+    yield if @range[@current_column] != 0
+  end
+  
+  def self.turn_on_led_for_current_position
+    monome.led_on(@current_column, @position[@current_column])
+  end
+  
+  def self.turn_off_led_for_previous_position
+    monome.led_off(@current_column, @position[@current_column] - @direction[@current_column])
+  end
+  
+  def self.update_position
+    reverse_direction if reached_bottom? || reached_top_of_range?
+    @position[@current_column] += @direction[@current_column]
+  end
+  
+  def self.reverse_direction
+    @direction[@current_column] *= -1
+  end
+  
+  def self.reached_bottom?
+    @position[@current_column] == 0
+  end
+  
+  def self.reached_top_of_range?
+    @position[@current_column] == @range[@current_column]
   end
   
 end
