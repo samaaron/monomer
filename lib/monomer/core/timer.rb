@@ -8,9 +8,9 @@ module Monomer
         num_iterations = opts[:num_iterations]
         period = 60 / bpm.to_f / 4
         
-        start_time = Time.now.to_f
-        sleep_ratio = 0.8
-        num_warm_up_iterations = 6 #necessary for JRuby JIT optimisations to kick in
+        start_time  = Time.now.to_f
+        sleep_ratio = 0.7
+        num_warm_up_iterations   = 6 #necessary for JRuby JIT optimisations to kick in
         num_iterations_completed = 0
         warmed_up = false
         
