@@ -37,7 +37,7 @@ class Rebound < Monomer::Listener
   end
   
   def self.prepare_note
-    @midi.prepare_note(:duration => 0.5, :note => 40 + @position[@current_column])
+    @midi.prepare_note(:duration => 0.5, :note => 40 + @current_column)
   end
   
   def self.when_bouncing
