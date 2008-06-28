@@ -12,7 +12,7 @@ class Miditest < Monomer::Listener
     monome.led_on(x,y)
   end
   
-  on_any_button_release do |x,y|
+  on_button_release do |x,y|
     @midi.off(y * 8 + x)
     monome.led_off(x,y)
   end

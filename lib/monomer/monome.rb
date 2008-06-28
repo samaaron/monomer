@@ -27,7 +27,7 @@ module Monomer
       @before_start_listeners = []
       @specific_button_pressed_listeners = []
       @specific_button_released_listeners = []
-      @specific_key_sustain_listeners = []
+      @specific_button_sustain_listeners = []
       clear
     end
     
@@ -121,44 +121,44 @@ module Monomer
     end
     
     def button_pressed(x,y)
-      @button_pressed_listeners.each {|listener| listener.button_pressed(x,y)}
+      @button_pressed_listeners.each {|listener| listener.listen_for_button_pressed(x,y)}
       @specific_button_pressed_listeners.each do |listener|
         listener.send("listen_for_button_pressed_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_button_pressed_#{x}_#{y}"
         listener.send("listen_for_button_pressed_#{x}_any", x, y)  if listener.respond_to? "listen_for_button_pressed_#{x}_any"
         listener.send("listen_for_button_pressed_any_#{y}", x, y)  if listener.respond_to? "listen_for_button_pressed_any_#{y}"
       end
       
-      @key_sustain_listeners.each    {|listener| listener.key_sustain_on(x,y)}
-      @specific_key_sustain_listeners.each do |listener|
-        listener.send("listen_for_key_sustain_on_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_key_sustain_on_#{x}_#{y}"
-        listener.send("listen_for_key_sustain_on_#{x}_any", x, y)  if listener.respond_to? "listen_for_key_sustain_on_#{x}_any"
-        listener.send("listen_for_key_sustain_on_any_#{y}", x, y)  if listener.respond_to? "listen_for_key_sustain_on_any_#{y}"
+      @key_sustain_listeners.each    {|listener| listener.listen_for_button_sustain_on(x,y)}
+      @specific_button_sustain_listeners.each do |listener|
+        listener.send("listen_for_button_sustain_on_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_button_sustain_on_#{x}_#{y}"
+        listener.send("listen_for_button_sustain_on_#{x}_any", x, y)  if listener.respond_to? "listen_for_button_sustain_on_#{x}_any"
+        listener.send("listen_for_button_sustain_on_any_#{y}", x, y)  if listener.respond_to? "listen_for_button_sustain_on_any_#{y}"
       end
     end
     
     def button_released(x,y)
-      @button_released_listeners.each {|listener| listener.button_released(x,y)}
+      @button_released_listeners.each {|listener| listener.listen_for_button_released(x,y)}
       @specific_button_released_listeners.each do |listener|
         listener.send("listen_for_button_released_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_button_released_#{x}_#{y}"
         listener.send("listen_for_button_released_#{x}_any", x, y)  if listener.respond_to? "listen_for_button_released_#{x}_any"
         listener.send("listen_for_button_released_any_#{y}", x, y)  if listener.respond_to? "listen_for_button_released_any_#{y}"
       end
       
-      @key_sustain_listeners.each     {|listener| listener.key_sustain_off(x,y)}
-      @specific_button_released_listeners.each do |listener|
-        listener.send("listen_for_key_sustain_off_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_key_sustain_off_#{x}_#{y}"
-        listener.send("listen_for_key_sustain_off_#{x}_any", x, y)  if listener.respond_to? "listen_for_key_sustain_off_#{x}_any"
-        listener.send("listen_for_key_sustain_off_any_#{y}", x, y)  if listener.respond_to? "listen_for_key_sustain_off_any_#{y}"
+      @key_sustain_listeners.each {|listener| listener.listen_for_button_sustain_off(x,y)}
+      @specific_button_sustain_listeners.each do |listener|
+        listener.send("listen_for_button_sustain_off_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_button_sustain_off_#{x}_#{y}"
+        listener.send("listen_for_button_sustain_off_#{x}_any", x, y)  if listener.respond_to? "listen_for_button_sustain_off_#{x}_any"
+        listener.send("listen_for_button_sustain_off_any_#{y}", x, y)  if listener.respond_to? "listen_for_button_sustain_off_any_#{y}"
       end
     end
     
     def start
       register_self_with_listeners
       determine_listener_hooks
-      @before_start_listeners.each {|listener| listener.before_start}
+      @before_start_listeners.each {|listener| listener.listen_for_before_start}
       @communicator.start do
-        @on_start_listeners.each {|listener| listener.start}
-        @loop_on_start_listeners.each {|listener| listener.loop_on_start}
+        @on_start_listeners.each {|listener| listener.listen_for_start}
+        @loop_on_start_listeners.each {|listener| listener.listen_for_loop_on_start}
       end      
     end
     
@@ -184,12 +184,12 @@ module Monomer
         @button_pressed_listeners   << listener if listener.respond_to? :listen_for_button_pressed
         @on_start_listeners         << listener if listener.respond_to? :listen_for_start
         @loop_on_start_listeners    << listener if listener.respond_to? :listen_for_loop_on_start
-        @key_sustain_listeners      << listener if listener.respond_to? :listen_for_key_sustain_on
+        @key_sustain_listeners      << listener if listener.respond_to? :listen_for_button_sustain_on
         @before_start_listeners     << listener if listener.respond_to? :listen_for_before_start
         
         @specific_button_pressed_listeners  << listener if listener.methods.grep(/\Alisten_for_button_pressed_/)
         @specific_button_released_listeners << listener if listener.methods.grep(/\Alisten_for_button_released_/)
-        @specific_key_sustain_listeners     << listener if listener.methods.grep(/\Alisten_for_key_sustain_on_/)
+        @specific_button_sustain_listeners     << listener if listener.methods.grep(/\Alisten_for_button_sustain_on_/)
       end
     end
     

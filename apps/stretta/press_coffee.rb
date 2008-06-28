@@ -32,7 +32,7 @@ class PressCoffee < Monomer::Listener
     @step_offsets[x] = @current_offset
   end
   
-  on_any_button_release do |x,y|
+  on_button_release do |x,y|
     @current_patterns[x] = -1
   end
   

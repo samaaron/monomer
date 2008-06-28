@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Blinker < Monomer::Listener
   
-  loop_on_any_button_sustain do
+  loop_on_button_sustain do
     monome.all
     sleep(0.1)
     monome.clear

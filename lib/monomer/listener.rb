@@ -6,10 +6,10 @@ module Monomer
     
     extend Core::Timer
     
-    def self.loop_on_any_button_sustain(x=:any, y=:any, &block)
+    def self.loop_on_button_sustain(x=:any, y=:any, &block)
       postfix = determine_postfix(x,y)
       
-      meta_def "listen_for_key_sustain_on do#{postfix}" do |x,y|
+      meta_def "listen_for_button_sustain_on do#{postfix}" do |x,y|
         @key_threads[[x,y]] = Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           loop do
@@ -18,7 +18,7 @@ module Monomer
         end
       end
       
-      meta_def "listen_for_key_sustain_off#{postfix}" do |x,y|
+      meta_def "listen_for_button_sustain_off#{postfix}" do |x,y|
         if thread = @key_threads[[x,y]]
           thread.kill
           @key_threads[[x,y]] = nil
@@ -63,10 +63,10 @@ module Monomer
       end
     end
     
-    def self.on_any_button_release(x=:any, y=:any, &block)
+    def self.on_button_release(x=:any, y=:any, &block)
       postfix = determine_postfix(x,y)
       
-      meta_def ":listen_for_button_released#{postfix}" do |x,y|
+      meta_def "listen_for_button_released#{postfix}" do |x,y|
         Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           block.call(x,y)
