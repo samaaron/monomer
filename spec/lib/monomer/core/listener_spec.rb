@@ -9,7 +9,7 @@ describe Monomer::Listener do
     @block_c = lambda {:c}
     
     class A < Monomer::Listener
-      loop_on_key_sustain(&@block_a)
+      loop_on_any_button_sustain(&@block_a)
     end
     
     class B < Monomer::Listener
@@ -27,17 +27,17 @@ describe Monomer::Listener do
     C.superclass.should == Monomer::Listener
   end
   
-  it "should have defined loop_on_key_sustain on A's metaclass" do
-   # A.metaclass.instance_methods.grep(/loop_on_key_sustain/).should_not == nil
+  it "should have defined loop_on_any_button_sustain on A's metaclass" do
+   # A.metaclass.instance_methods.grep(/loop_on_any_button_sustain/).should_not == nil
   end
   
-  it "should not have defined loop_on_key_sustain on either A or B's metaclass" do
-   # B.metaclass.instance_methods.grep(/loop_on_key_sustain/).should == nil
-   # C.metaclass.instance_methods.grep(/loop_on_key_sustain/).should == nil
+  it "should not have defined loop_on_any_button_sustain on either A or B's metaclass" do
+   # B.metaclass.instance_methods.grep(/loop_on_any_button_sustain/).should == nil
+   # C.metaclass.instance_methods.grep(/loop_on_any_button_sustain/).should == nil
   end
   
   it "should have made the correct blocks available to the metaclasses of the classes" do
-    A.loop_on_key_sustain.should == @block_a
+    A.loop_on_any_button_sustain.should == @block_a
     B.on_start.should == @block_b 
     C.before_start.should == @block_c
   end

@@ -14,9 +14,13 @@ module Monomer
         num_iterations_completed = 0
         warmed_up = false
         
+        time_taken_for_tick_lambda = 0.0
         iteration = lambda do
           num_iterations_completed += 1
           warmed_up = true if num_iterations_completed >= num_warm_up_iterations
+          
+          prepare.call if prepare
+          
           not_managing_to_keep_up = Time.now.to_f - (start_time + num_iterations_completed * period) > period
           
           if not_managing_to_keep_up && warmed_up
@@ -26,13 +30,13 @@ module Monomer
             puts message
           end
           
-          prepare.call if prepare
-          
           sleep period * sleep_ratio unless not_managing_to_keep_up || !warmed_up
-          while Time.now.to_f - (start_time + num_iterations_completed * period) < period
+          while Time.now.to_f - (start_time + num_iterations_completed * period) - (time_taken_for_tick_lambda / 2) < period
           end
           
+          before_tick = Time.now.to_f
           on_tick.call if on_tick
+          time_taken_for_tick_lambda = Time.now.to_f - before_tick
         end
         
         if num_iterations

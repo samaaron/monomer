@@ -11,7 +11,7 @@ class CornerToggles < Monomer::Listener
     @last_key = []
   end
   
-  on_any_button_press do |x,y|
+  on_button_press do |x,y|
     if @last_key == [x,y]
       @number_of_consecutive_taps += 1
       

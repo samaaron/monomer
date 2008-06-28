@@ -9,7 +9,7 @@ class Test < Monomer::Listener
     end
   end
   
-  on_any_button_press do |x,y|
+  on_button_press do |x,y|
     puts "#{x} - #{y}"
   end
   

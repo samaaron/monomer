@@ -24,10 +24,10 @@ class PressCoffee < Monomer::Listener
   end
   
   on_start do
-    timely_repeat :bpm => 140, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.flush!}
+    timely_repeat :bpm => 140, :prepare => L{update_patterns_and_lights}, :on_tick => L{@midi.play_prepared_notes!}
   end
   
-  on_any_button_press do |x,y|
+  on_button_press do |x,y|
     @current_patterns[x] = y
     @step_offsets[x] = @current_offset
   end

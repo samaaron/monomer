@@ -12,6 +12,7 @@ require 'monomer/core/state'
 require 'monomer/midi_out'
 require 'monomer/monome'
 require 'monomer/listener'
+require 'monomer/coord'
 
 #require osc
 require 'osc/osc'

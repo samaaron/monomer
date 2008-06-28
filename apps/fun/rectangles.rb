@@ -7,29 +7,11 @@ require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Rectangles < Monomer::Listener
   
-  class Coord
-    attr_accessor :x, :y
-    def initialize(x,y)
-      @x = x
-      @y = y
-    end
-    
-    def ==(other)
-      (other.x == @x && other.y == @y)
-    end
-    
-    def hash
-      @x * 10 + @y
-    end
-    
-    alias_method :eql?, :==
-  end
-  
   before_start do
     @last_five_taps = [[0,0],[0,0],[0,0],[0,0],[0,0]]
   end
   
-  on_any_button_press do |x,y|
+  on_button_press do |x,y|
     @last_five_taps.pop
     @last_five_taps.unshift([x,y])
     draw_rectangle if rectangle_combination_entered?
@@ -55,7 +37,7 @@ class Rectangles < Monomer::Listener
   
   def self.order_first_four_taps_spatially
     last_four_taps = @last_five_taps[1..-1]
-    last_four_taps.sort.map{|coords| Coord.new(coords[0],coords[1])}
+    last_four_taps.sort.map{|coords| Monomer::Coord.new(coords[0],coords[1])}
   end
   
   def self.draw_rectangle

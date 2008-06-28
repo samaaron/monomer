@@ -25,6 +25,9 @@ module Monomer
       @loop_on_start_listeners = []
       @key_sustain_listeners = []
       @before_start_listeners = []
+      @specific_button_pressed_listeners = []
+      @specific_button_released_listeners = []
+      @specific_key_sustain_listeners = []
       clear
     end
     
@@ -118,15 +121,35 @@ module Monomer
     end
     
     def button_pressed(x,y)
-      x,y = normalize(x,y)
       @button_pressed_listeners.each {|listener| listener.button_pressed(x,y)}
+      @specific_button_pressed_listeners.each do |listener|
+        listener.send("listen_for_button_pressed_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_button_pressed_#{x}_#{y}"
+        listener.send("listen_for_button_pressed_#{x}_any", x, y)  if listener.respond_to? "listen_for_button_pressed_#{x}_any"
+        listener.send("listen_for_button_pressed_any_#{y}", x, y)  if listener.respond_to? "listen_for_button_pressed_any_#{y}"
+      end
+      
       @key_sustain_listeners.each    {|listener| listener.key_sustain_on(x,y)}
+      @specific_key_sustain_listeners.each do |listener|
+        listener.send("listen_for_key_sustain_on_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_key_sustain_on_#{x}_#{y}"
+        listener.send("listen_for_key_sustain_on_#{x}_any", x, y)  if listener.respond_to? "listen_for_key_sustain_on_#{x}_any"
+        listener.send("listen_for_key_sustain_on_any_#{y}", x, y)  if listener.respond_to? "listen_for_key_sustain_on_any_#{y}"
+      end
     end
     
     def button_released(x,y)
-      x,y = normalize(x,y)
       @button_released_listeners.each {|listener| listener.button_released(x,y)}
+      @specific_button_released_listeners.each do |listener|
+        listener.send("listen_for_button_released_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_button_released_#{x}_#{y}"
+        listener.send("listen_for_button_released_#{x}_any", x, y)  if listener.respond_to? "listen_for_button_released_#{x}_any"
+        listener.send("listen_for_button_released_any_#{y}", x, y)  if listener.respond_to? "listen_for_button_released_any_#{y}"
+      end
+      
       @key_sustain_listeners.each     {|listener| listener.key_sustain_off(x,y)}
+      @specific_button_released_listeners.each do |listener|
+        listener.send("listen_for_key_sustain_off_#{x}_#{y}", x, y) if listener.respond_to? "listen_for_key_sustain_off_#{x}_#{y}"
+        listener.send("listen_for_key_sustain_off_#{x}_any", x, y)  if listener.respond_to? "listen_for_key_sustain_off_#{x}_any"
+        listener.send("listen_for_key_sustain_off_any_#{y}", x, y)  if listener.respond_to? "listen_for_key_sustain_off_any_#{y}"
+      end
     end
     
     def start
@@ -157,12 +180,16 @@ module Monomer
     
     def determine_listener_hooks
       @listeners.each do |listener|
-        @button_released_listeners  << listener if listener.respond_to? :button_released
-        @button_pressed_listeners   << listener if listener.respond_to? :button_pressed
-        @on_start_listeners         << listener if listener.respond_to? :start
-        @loop_on_start_listeners    << listener if listener.respond_to? :loop_on_start
-        @key_sustain_listeners      << listener if listener.respond_to? :key_sustain_on
-        @before_start_listeners     << listener if listener.respond_to? :before_start
+        @button_released_listeners  << listener if listener.respond_to? :listen_for_button_released
+        @button_pressed_listeners   << listener if listener.respond_to? :listen_for_button_pressed
+        @on_start_listeners         << listener if listener.respond_to? :listen_for_start
+        @loop_on_start_listeners    << listener if listener.respond_to? :listen_for_loop_on_start
+        @key_sustain_listeners      << listener if listener.respond_to? :listen_for_key_sustain_on
+        @before_start_listeners     << listener if listener.respond_to? :listen_for_before_start
+        
+        @specific_button_pressed_listeners  << listener if listener.methods.grep(/\Alisten_for_button_pressed_/)
+        @specific_button_released_listeners << listener if listener.methods.grep(/\Alisten_for_button_released_/)
+        @specific_key_sustain_listeners     << listener if listener.methods.grep(/\Alisten_for_key_sustain_on_/)
       end
     end
     

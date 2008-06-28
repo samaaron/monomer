@@ -6,8 +6,10 @@ module Monomer
     
     extend Core::Timer
     
-    def self.loop_on_key_sustain(&block)
-      meta_def :key_sustain_on do |x,y|
+    def self.loop_on_any_button_sustain(x=:any, y=:any, &block)
+      postfix = determine_postfix(x,y)
+      
+      meta_def "listen_for_key_sustain_on do#{postfix}" do |x,y|
         @key_threads[[x,y]] = Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           loop do
@@ -16,7 +18,7 @@ module Monomer
         end
       end
       
-      meta_def :key_sustain_off do |x,y|
+      meta_def "listen_for_key_sustain_off#{postfix}" do |x,y|
         if thread = @key_threads[[x,y]]
           thread.kill
           @key_threads[[x,y]] = nil
@@ -25,13 +27,13 @@ module Monomer
     end
     
     def self.before_start(&block)
-      meta_def :before_start do
+      meta_def :listen_for_before_start do
         block.call
       end
     end
     
     def self.on_start(&block)
-      meta_def :start do
+      meta_def :listen_for_start do
         thread = Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           block.call
@@ -40,7 +42,7 @@ module Monomer
     end
     
     def self.loop_on_start(&block)
-      meta_def :loop_on_start do
+      meta_def :listen_for_loop_on_start do
         thread = Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           loop do
@@ -50,8 +52,10 @@ module Monomer
       end
     end
     
-    def self.on_any_button_press(&block)
-      meta_def :button_pressed do |x,y|
+    def self.on_button_press(x=:any, y=:any, &block)
+      postfix = determine_postfix(x,y)
+      
+      meta_def "listen_for_button_pressed#{postfix}" do |x,y|
         Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           block.call(x,y)
@@ -59,8 +63,10 @@ module Monomer
       end
     end
     
-    def self.on_any_button_release(&block)
-      meta_def :button_released do |x,y|
+    def self.on_any_button_release(x=:any, y=:any, &block)
+      postfix = determine_postfix(x,y)
+      
+      meta_def ":listen_for_button_released#{postfix}" do |x,y|
         Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
           block.call(x,y)
@@ -70,6 +76,7 @@ module Monomer
     
     def self.init
       @key_threads = {}
+      puts methods.sort - Class.new.methods
       self  
     end
     
@@ -81,6 +88,18 @@ module Monomer
         end
       END
       eval method_def
+    end
+    
+    def self.determine_postfix(x,y)
+      x = x || :any
+      y = y || :any
+      
+      postfix = ''
+      unless (x == :any && y == :any)
+        postfix << "_#{x}"
+        postfix << "_#{y}"
+      end
+      postfix
     end
     
   end

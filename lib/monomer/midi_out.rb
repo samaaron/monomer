@@ -16,7 +16,7 @@ module Monomer
     
     
     def off(note, velocity=64)
-      @midi_out.send(JMidi::Message::Off.new(1, note, velocity))
+        @midi_out.send(JMidi::Message::Off.new(1, note, velocity))
     end
     
     def play(duration, note, velocity=64)
@@ -47,7 +47,7 @@ module Monomer
       end
     end
     
-    def flush!
+    def play_prepared_notes!
       @prepared_on_messages.each{|note| @midi_out.send_bytes(note)} 
       @prepared_on_messages = []
       

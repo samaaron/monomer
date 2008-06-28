@@ -10,7 +10,7 @@ class SuperMagicFingers < Monomer::Listener
     @magic_squares = {}
   end
   
-  loop_on_key_sustain do |x,y|
+  loop_on_any_button_sustain do |x,y|
     square_size = 1
     diff = 1
     loop do

@@ -19,7 +19,7 @@ class BlinkinLights < Monomer::Listener
     end
   end
   
-  on_any_button_press do |x,y|
+  on_button_press do |x,y|
     @spawn_rate = ((x.to_f / monome.max_x.to_f) * 1) + 0.01
     @sustain = y + 0.1
     puts "spawn_rate: #{@spawn_rate}"
@@ -27,8 +27,8 @@ class BlinkinLights < Monomer::Listener
   end
   
   def self.light_random_led(sustain)
-    x = rand(monome.max_x + 1)
-    y = rand(monome.max_y + 1)
+    x = monome.rand_x
+    y = monome.rand_y
     monome.led_on(x,y)
     sleep sustain
     monome.led_off(x,y)

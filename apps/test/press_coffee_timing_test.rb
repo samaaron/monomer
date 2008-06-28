@@ -164,7 +164,7 @@ puts "with sleep"
  
   end
   
-  on_any_button_press do |x,y|
+  on_button_press do |x,y|
     @current_patterns[x] = y
     @step_offsets[x] = @current_offset
   end
