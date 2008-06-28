@@ -20,7 +20,7 @@ class BlinkinLights < Monomer::Listener
     end
   end
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     @spawn_rate = ((x.to_f / monome.max_x.to_f) * 1) + 0.01
     @sustain = y + 0.1
     puts "spawn_rate: #{@spawn_rate}"

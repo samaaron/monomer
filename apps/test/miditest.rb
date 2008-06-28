@@ -7,12 +7,12 @@ class Miditest < Monomer::Listener
     @midi = Monomer::MidiOut.new
   end
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     @midi.on (y * 8 + x)
     monome.led_on(x,y)
   end
   
-  on_key_up do |x,y|
+  on_any_button_release do |x,y|
     @midi.off(y * 8 + x)
     monome.led_off(x,y)
   end

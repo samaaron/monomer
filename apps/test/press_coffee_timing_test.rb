@@ -164,12 +164,12 @@ puts "with sleep"
  
   end
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     @current_patterns[x] = y
     @step_offsets[x] = @current_offset
   end
   
-  on_key_up do |x,y|
+  on_any_button_release do |x,y|
     @current_patterns[x] = -1
   end
   

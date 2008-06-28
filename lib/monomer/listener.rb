@@ -50,7 +50,7 @@ module Monomer
       end
     end
     
-    def self.on_key_down(&block)
+    def self.on_any_button_press(&block)
       meta_def :button_pressed do |x,y|
         Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class
@@ -59,7 +59,7 @@ module Monomer
       end
     end
     
-    def self.on_key_up(&block)
+    def self.on_any_button_release(&block)
       meta_def :button_released do |x,y|
         Thread.new do
           change_to_s_of_this_thread_to_map_to_calling_class

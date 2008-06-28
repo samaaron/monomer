@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class Toggle < Monomer::Listener
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     monome.toggle_led(x,y)
   end
 

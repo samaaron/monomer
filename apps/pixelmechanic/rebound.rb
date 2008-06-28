@@ -17,10 +17,11 @@ class Rebound < Monomer::Listener
     timely_repeat :bpm => 120, :prepare => L{bounce_lights_and_prepare_notes}, :on_tick => L{@midi.flush!}
   end
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     @range[x]     = y
     @position[x]  = y
-    @direction[x] = 1 
+    @direction[x] = 1
+    monome.clear_column(x) if y == 0
   end
   
   def self.bounce_lights_and_prepare_notes
@@ -28,9 +29,9 @@ class Rebound < Monomer::Listener
       @current_column = col_index
       when_bouncing do
         update_position
-        turn_on_led_for_current_position
-        turn_off_led_for_previous_position
         prepare_note if reached_bottom?
+        turn_off_led_for_previous_position
+        turn_on_led_for_current_position
       end
     end
   end

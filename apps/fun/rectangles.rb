@@ -29,7 +29,7 @@ class Rectangles < Monomer::Listener
     @last_five_taps = [[0,0],[0,0],[0,0],[0,0],[0,0]]
   end
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     @last_five_taps.pop
     @last_five_taps.unshift([x,y])
     draw_rectangle if rectangle_combination_entered?

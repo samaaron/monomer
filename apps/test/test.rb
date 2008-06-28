@@ -9,11 +9,11 @@ class Test < Monomer::Listener
     end
   end
   
-  on_key_down do |x,y|
+  on_any_button_press do |x,y|
     puts "#{x} - #{y}"
   end
   
-  on_key_up do |x,y|
+  on_any_button_release do |x,y|
   end
 end
 
