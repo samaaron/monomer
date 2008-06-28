@@ -76,7 +76,6 @@ module Monomer
     
     def self.init
       @key_threads = {}
-      puts methods.sort - Class.new.methods
       self  
     end
     
