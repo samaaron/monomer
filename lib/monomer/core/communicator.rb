@@ -29,7 +29,17 @@ module Monomer
       end
       
       def light_column(col, *pattern)
-        send_col(col, pattern.to_s.to_i(2))
+        split_patterns = []
+        (0...(pattern.size / 8)).each {|i| split_patterns << pattern.slice(i*8, 8)}
+        split_patterns.map!{|i| i.to_s.to_i(2)}
+        send_col(col, split_patterns)
+      end
+      
+      def light_row(row, *pattern)
+        split_patterns = []
+        (0...(pattern.size / 8)).each {|i| split_patterns << pattern.slice(i*8, 8)}
+        split_patterns.map!{|i| i.to_s.to_i(2)}
+        send_row(row, split_patterns)
       end
       
       def clear
@@ -89,12 +99,12 @@ module Monomer
         @client.send(OSC::Message.new("#{@prefix}/led", nil, x,y, led_status))
       end
       
-      def send_row(row_num, decimal)
-        @client.send(OSC::Message.new("#{@prefix}/led_row", nil, row_num, decimal))
+      def send_row(row_num, decimals)
+        @client.send(OSC::Message.new("#{@prefix}/led_row", nil, row_num, *decimals))
       end
       
-      def send_col(col_num, decimal)
-        @client.send(OSC::Message.new("#{@prefix}/led_col", nil, col_num, decimal))
+      def send_col(col_num, decimals)
+        @client.send(OSC::Message.new("#{@prefix}/led_col", nil, col_num, *decimals))
       end
       
       def send_frame(offset_x, offset_y, c1, c2, c3, c4, c5, c6, c7, c8)

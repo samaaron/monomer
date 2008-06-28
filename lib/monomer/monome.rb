@@ -104,12 +104,16 @@ module Monomer
     end
     
     def clear_column(col)
-      col__light_pattern = (0..max_y).map{|y|led_off(col,y)}.map{|need_to_turn_off| need_to_turn_off ? 0 : 1}
-      light_column(col, *col__light_pattern)
+      col_light_pattern = (0..max_y).map{|y|led_off(col,y)}.map{|need_to_turn_off| need_to_turn_off ? 0 : 1}
+      light_column(col, col_light_pattern)
     end
     
-    def light_column(col, *pattern)
+    def light_column(col, pattern)
       @communicator.light_column(col, *pattern)
+    end
+    
+    def light_row(row, pattern)
+      @communicator.light_row(row, *pattern)
     end
     
     def clear

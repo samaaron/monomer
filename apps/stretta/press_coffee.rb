@@ -56,7 +56,7 @@ class PressCoffee < Monomer::Listener
     patterns_to_play.each_with_index do |pattern, index|
       
       if pattern
-        monome.light_column(index, *pattern)
+        monome.light_column(index, pattern)
         @midi.prepare_note(:duration => 0.5, :note => 40 + index) if pattern[monome.max_y] == 1
       end
       

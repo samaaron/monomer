@@ -6,6 +6,7 @@ require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class BlinkinLights < Monomer::Listener
   before_start do
+    @midi = Monomer::MidiOut.new
     @spawn_rate = 1
     @sustain = 3
   end
@@ -30,8 +31,10 @@ class BlinkinLights < Monomer::Listener
     x = monome.rand_x
     y = monome.rand_y
     monome.led_on(x,y)
+    @midi.on(x * 8) rescue nil #need to figure out what the midi integers really mean...
     sleep sustain
     monome.led_off(x,y)
+    @midi.off(x * 8) rescue nil
   end
   
 end
