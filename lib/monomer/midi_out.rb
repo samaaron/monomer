@@ -11,12 +11,12 @@ module Monomer
     end
     
     def on(note, velocity=64)
-      @midi_out.send(Midi::MessageOn.new(1, note, velocity))
+      @midi_out.send(JMidi::Message::On.new(1, note, velocity))
     end
     
     
     def off(note, velocity=64)
-      @midi_out.send(Midi::MessageOff.new(1, note, velocity))
+      @midi_out.send(JMidi::Message::Off.new(1, note, velocity))
     end
     
     def play(duration, note, velocity=64)
@@ -28,11 +28,11 @@ module Monomer
     end
     
     def prepare_on(note, velocity=64)
-      @prepared_on_messages << Midi::MessageOn.new(1, note, velocity).to_bytes.to_java(:byte)
+      @prepared_on_messages << JMidi::Message::On.new(1, note, velocity).to_bytes.to_java(:byte)
     end
     
     def prepare_off(note, velocity=64)
-      @prepared_off_messages << Midi::MessageOff.new(1, note, velocity).to_bytes.to_java(:byte)
+      @prepared_off_messages << JMidi::Message::Off.new(1, note, velocity).to_bytes.to_java(:byte)
     end
     
     def prepare_note(opts={})
@@ -41,16 +41,19 @@ module Monomer
       velocity = opts[:velocity] || 64
       
       prepare_on(note, velocity)
-      @prepared_off_lambdas << lambda {sleep(duration) ; off(note)}
+      @prepared_off_lambdas << lambda do 
+        sleep(duration)
+        off(note)
+      end
     end
     
     def flush!
       @prepared_on_messages.each{|note| @midi_out.send_bytes(note)} 
       @prepared_on_messages = []
       
-      if @prepared_off_messages != []
+      if @prepared_off_lambdas != []
         Thread.new do
-          @prepared_off_lambdas.each {Thread.new {l.call} }
+          @prepared_off_lambdas.each {|l| Thread.new {l.call} }
           @prepared_off_lambdas = []
         end
       end

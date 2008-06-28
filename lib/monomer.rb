@@ -20,6 +20,13 @@ require 'osc/osc'
 if RUBY_PLATFORM.include?('java') 
   require 'java'
   require 'midi/javamidi'
+  
+  #require messages
+  require 'midi/message/message_codes'
+  require 'midi/message/on'
+  require 'midi/message/off'
+  require 'midi/message/program_change'
+  require 'midi/message/all_off'
 end
 
 #require crazy shit

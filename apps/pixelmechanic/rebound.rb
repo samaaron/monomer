@@ -21,7 +21,7 @@ class Rebound < Monomer::Listener
     @range[x]     = y
     @position[x]  = y
     @direction[x] = 1
-    monome.clear_column(x) if y == 0
+    monome.clear_column(x)
   end
   
   def self.bounce_lights_and_prepare_notes
