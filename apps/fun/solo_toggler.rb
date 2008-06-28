@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/../../lib/monomer'
 
 class SoloToggler < Monomer::Listener
   
-  on_button_press(0,:any) do |x,y|
+  on_button_press(0,0) do |x,y|
     monome.toggle_led(x,y)
   end
   
